@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>🇯🇵 일본 여행 일본어</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', sans-serif;
+      background: #f7f4f0;
+      color: #2d2d2d;
+      min-height: 100dvh;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    button { font-family: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+
+    /* HEADER */
+    .header {
+      background: #c0392b;
+      color: white;
+      padding: 14px 16px 12px;
+      text-align: center;
+    }
+    .header-title { font-size: 18px; font-weight: 700; }
+    .header-sub { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+
+    /* NAV */
+    .nav {
+      display: flex;
+      background: white;
+      border-bottom: 1px solid #ebe8e4;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .nav-tab {
+      flex: 1; border: none; background: none;
+      padding: 10px 2px 8px;
+      font-size: 11px; color: #aaa;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s; line-height: 1.4;
+    }
+    .nav-tab .tab-icon { display: block; font-size: 18px; }
+    .nav-tab.active { color: #c0392b; border-bottom-color: #c0392b; font-weight: 600; }
+
+    /* SCREENS */
+    .screen { display: none; padding: 16px 16px 100px; }
+    .screen.active { display: block; }
+
+    .section-title {
+      font-size: 12px; font-weight: 700; color: #aaa;
+      letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 12px;
+    }
+
+    /* CATEGORY GRID */
+    .cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .cat-card {
+      background: white; border-radius: 14px; padding: 18px 12px;
+      text-align: center; border: 2px solid transparent;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.15s;
+    }
+    .cat-card:active { transform: scale(0.96); }
+    .cat-emoji { font-size: 30px; display: block; margin-bottom: 8px; }
+    .cat-name { font-size: 13px; font-weight: 700; }
+    .cat-prog { font-size: 11px; color: #aaa; margin-top: 4px; }
+    .mini-bar { background: #f0ece8; border-radius: 4px; height: 3px; margin-top: 8px; }
+    .mini-fill { background: #c0392b; height: 100%; border-radius: 4px; transition: width 0.3s; }
+
+    /* PHRASE CARD */
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: none; border: none; color: #c0392b;
+      font-size: 14px; font-weight: 600; padding: 0; margin-bottom: 14px;
+    }
+    .counter { text-align: right; font-size: 12px; color: #aaa; margin-bottom: 8px; }
+    .phrase-card {
+      background: white; border-radius: 18px; padding: 28px 20px 24px;
+      text-align: center; box-shadow: 0 3px 16px rgba(0,0,0,0.08); margin-bottom: 16px;
+    }
+    .cat-tag {
+      display: inline-block; background: #fff3f3; color: #c0392b;
+      font-size: 11px; font-weight: 600; padding: 3px 10px;
+      border-radius: 20px; margin-bottom: 16px;
+    }
+    .phrase-jp { font-size: 28px; font-weight: 700; color: #1a1a1a; line-height: 1.4; margin-bottom: 8px; }
+    .phrase-hira { font-size: 14px; color: #888; margin-bottom: 6px; }
+    .phrase-pron {
+      display: inline-block; background: #f5f0eb; color: #666;
+      font-size: 13px; padding: 4px 14px; border-radius: 20px; margin-bottom: 16px;
+    }
+    .divider { border: none; border-top: 1px solid #f0ece8; margin: 14px 0; }
+    .phrase-ko { font-size: 20px; font-weight: 700; }
+    .card-actions { display: flex; gap: 10px; margin-top: 18px; justify-content: center; }
+    .tts-btn {
+      background: #c0392b; color: white; border: none;
+      border-radius: 50px; padding: 12px 24px; font-size: 15px;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .check-btn {
+      background: white; color: #4caf50; border: 2px solid #4caf50;
+      border-radius: 50px; padding: 12px 20px; font-size: 15px; font-weight: 600;
+    }
+    .check-btn.done { background: #4caf50; color: white; }
+    .nav-arrows { display: flex; gap: 10px; }
+    .arrow-btn {
+      flex: 1; background: white; border: 2px solid #e0dbd5;
+      border-radius: 12px; padding: 13px; font-size: 15px; color: #555; font-weight: 600;
+    }
+    .arrow-btn:disabled { opacity: 0.3; }
+
+    /* QUIZ */
+    .start-btn {
+      width: 100%; background: #c0392b; color: white; border: none;
+      border-radius: 14px; padding: 16px; font-size: 17px; font-weight: 700; margin-top: 16px;
+    }
+    .filter-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+    .filter-btn {
+      padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;
+      border: 2px solid #e0dbd5; background: white; color: #666;
+    }
+    .filter-btn.on { border-color: #c0392b; background: #fff3f3; color: #c0392b; }
+
+    .q-progress { margin-bottom: 16px; }
+    .q-progress-row { display: flex; justify-content: space-between; font-size: 12px; color: #aaa; margin-bottom: 6px; }
+    .prog-bar { background: #e8e4e0; border-radius: 6px; height: 6px; }
+    .prog-fill { background: #c0392b; height: 100%; border-radius: 6px; transition: width 0.3s; }
+
+    .quiz-card {
+      background: white; border-radius: 18px; padding: 24px 20px;
+      box-shadow: 0 3px 16px rgba(0,0,0,0.08); margin-bottom: 16px; text-align: center;
+    }
+    .quiz-tag {
+      display: inline-block; background: #f5f0eb; color: #888;
+      font-size: 11px; padding: 3px 10px; border-radius: 20px; margin-bottom: 14px;
+    }
+    .quiz-q { font-size: 22px; font-weight: 700; line-height: 1.4; color: #1a1a1a; }
+    .quiz-sub { font-size: 13px; color: #aaa; margin-top: 8px; }
+    .audio-btn {
+      background: #c0392b; color: white; border: none; border-radius: 50px;
+      padding: 14px 32px; font-size: 20px; margin: 16px auto 0;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .opt-row {
+      display: flex; align-items: center; gap: 8px;
+      background: white; border: 2px solid #e0dbd5; border-radius: 14px;
+      overflow: hidden; transition: border-color 0.15s;
+    }
+    .opt-row.correct { background: #e8f5e9; border-color: #4caf50; }
+    .opt-row.wrong   { background: #fdecea; border-color: #f44336; }
+    .opt {
+      flex: 1; background: none; border: none;
+      padding: 15px 4px 15px 16px; font-size: 15px; text-align: left; color: #2d2d2d;
+    }
+    .opt:active { opacity: 0.7; }
+    .opt.correct { color: #2e7d32; font-weight: 600; }
+    .opt.wrong   { color: #c62828; }
+    .opt:disabled { cursor: default; }
+    .spk-btn {
+      flex-shrink: 0; background: none; border: none;
+      padding: 15px 14px 15px 6px; font-size: 17px; color: #bbb;
+      display: flex; align-items: center;
+    }
+    .spk-btn:active { color: #c0392b; }
+
+    .feedback-box { text-align: center; padding: 8px 0 4px; }
+    .fb-emoji { font-size: 46px; display: block; margin-bottom: 6px; }
+    .fb-text { font-size: 16px; font-weight: 700; }
+    .fb-ans { font-size: 14px; color: #c0392b; margin-top: 4px; font-weight: 600; }
+    .next-btn {
+      width: 100%; background: #c0392b; color: white; border: none;
+      border-radius: 14px; padding: 15px; font-size: 16px; font-weight: 700; margin-top: 12px;
+    }
+
+    /* QUIZ RESULT */
+    .result-card {
+      background: white; border-radius: 18px; padding: 36px 20px;
+      text-align: center; box-shadow: 0 3px 16px rgba(0,0,0,0.08); margin-bottom: 16px;
+    }
+    .result-emoji { font-size: 60px; display: block; margin-bottom: 12px; }
+    .result-score { font-size: 52px; font-weight: 800; color: #c0392b; }
+    .result-label { font-size: 15px; color: #aaa; margin-top: 4px; }
+    .result-msg { font-size: 19px; font-weight: 700; margin-top: 16px; }
+    .outline-btn {
+      width: 100%; background: white; color: #c0392b; border: 2px solid #c0392b;
+      border-radius: 14px; padding: 14px; font-size: 16px; font-weight: 700; margin-top: 10px;
+    }
+
+    /* LISTEN & REPEAT */
+    .repeat-card {
+      background: white; border-radius: 18px; padding: 28px 20px 24px;
+      text-align: center; box-shadow: 0 3px 16px rgba(0,0,0,0.08); margin-bottom: 14px;
+    }
+    .step-tag {
+      display: inline-block; background: #fff3f3; color: #c0392b;
+      font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px;
+    }
+    .mic-wrap { display: flex; justify-content: center; margin: 20px 0 8px; }
+    .mic-btn {
+      width: 88px; height: 88px; border-radius: 50%; border: none;
+      font-size: 36px; background: #c0392b; color: white;
+      box-shadow: 0 6px 20px rgba(192,57,43,0.4);
+      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+    }
+    .mic-btn.recording { background: #e74c3c; animation: pulse 1s infinite; }
+    .mic-btn.inactive { background: #ccc; box-shadow: none; }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 6px 20px rgba(231,76,60,0.35); transform: scale(1); }
+      50%      { box-shadow: 0 6px 36px rgba(231,76,60,0.7);  transform: scale(1.06); }
+    }
+    .mic-label { font-size: 13px; color: #aaa; }
+    .recog-box {
+      background: #f7f4f0; border-radius: 12px; padding: 14px 16px; margin-top: 14px;
+      font-size: 16px; min-height: 52px; display: flex; align-items: center; justify-content: center; color: #ccc;
+    }
+    .recog-result {
+      margin-top: 10px; padding: 12px 16px; border-radius: 12px;
+      font-size: 14px; font-weight: 600; text-align: center;
+    }
+    .recog-result.good  { background: #e8f5e9; color: #2e7d32; }
+    .recog-result.retry { background: #fff8e1; color: #e65100; }
+    .recog-result.err   { background: #f5f5f5; color: #999; }
+
+    /* PROGRESS */
+    .total-card {
+      background: #c0392b; color: white; border-radius: 18px;
+      padding: 28px 20px; text-align: center; margin-bottom: 16px;
+    }
+    .total-pct { font-size: 52px; font-weight: 800; }
+    .total-label { font-size: 14px; opacity: 0.85; margin-top: 4px; }
+    .total-sub { font-size: 12px; opacity: 0.7; margin-top: 8px; }
+    .prog-item {
+      background: white; border-radius: 14px; padding: 16px;
+      margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .prog-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .prog-name { font-size: 14px; font-weight: 700; }
+    .prog-cnt { font-size: 13px; color: #c0392b; font-weight: 600; }
+    .prog-bar2 { background: #f0ece8; border-radius: 6px; height: 6px; }
+    .prog-fill2 { background: #c0392b; height: 100%; border-radius: 6px; transition: width 0.3s; }
+    .reset-btn {
+      width: 100%; background: white; color: #bbb; border: 1px solid #e0dbd5;
+      border-radius: 14px; padding: 14px; font-size: 14px; margin-top: 8px;
+    }
+
+    .mt-12 { margin-top: 12px; }
+    .mt-16 { margin-top: 16px; }
+    .hidden { display: none !important; }
+    .text-muted { color: #aaa; font-size: 13px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-title">🇯🇵 일본 여행 일본어</div>
+  <div class="header-sub">아빠와 딸이 함께 배우는 여행 회화</div>
+</div>
+
+<nav class="nav">
+  <button class="nav-tab active" onclick="showTab('learn')">
+    <span class="tab-icon">📖</span>학습
+  </button>
+  <button class="nav-tab" onclick="showTab('quiz')">
+    <span class="tab-icon">🎯</span>퀴즈
+  </button>
+  <button class="nav-tab" onclick="showTab('repeat')">
+    <span class="tab-icon">🎤</span>따라하기
+  </button>
+  <button class="nav-tab" onclick="showTab('progress')">
+    <span class="tab-icon">⭐</span>진도
+  </button>
+</nav>
+
+<!-- LEARN -->
+<div id="screen-learn" class="screen active">
+  <div id="learn-cats"></div>
+  <div id="learn-cards" class="hidden"></div>
+</div>
+
+<!-- QUIZ -->
+<div id="screen-quiz" class="screen">
+  <div id="quiz-setup"></div>
+  <div id="quiz-active" class="hidden"></div>
+  <div id="quiz-result" class="hidden"></div>
+</div>
+
+<!-- REPEAT -->
+<div id="screen-repeat" class="screen">
+  <div id="repeat-setup"></div>
+  <div id="repeat-active" class="hidden"></div>
+</div>
+
+<!-- PROGRESS -->
+<div id="screen-progress" class="screen">
+  <div id="progress-content"></div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────
+const CATS = [
+  { id:'greet',       name:'기본 인사',   emoji:'👋' },
+  { id:'hotel',       name:'호텔',        emoji:'🏨' },
+  { id:'food',        name:'음식점',      emoji:'🍜' },
+  { id:'transit',     name:'교통',        emoji:'🚃' },
+  { id:'sightseeing', name:'관광지',      emoji:'⛩️' },
+  { id:'mama',        name:'엄마용 고급', emoji:'👩' },
+];
+
+const PHRASES = [
+  // ── 기본 인사 ────────────────────────────────────────────────────
+  { id:'g1',  cat:'greet', jp:'こんにちは',             hira:'こんにちは',               pron:'곤니치와',                  ko:'안녕하세요',              blank:null },
+  { id:'g2',  cat:'greet', jp:'ありがとうございます',     hira:'ありがとうございます',     pron:'아리가토- 고자이마스',       ko:'감사합니다',              blank:null },
+  { id:'g3',  cat:'greet', jp:'すみません',              hira:'すみません',               pron:'스미마센',                  ko:'저기요 / 실례합니다',     blank:null },
+  { id:'g4',  cat:'greet', jp:'わかりません',             hira:'わかりません',             pron:'와카리마센',                ko:'모르겠어요',              blank:null },
+  { id:'g5',  cat:'greet', jp:'もう一度お願いします',     hira:'もういちどおねがいします', pron:'모- 이치도 오네가이시마스', ko:'한 번 더 부탁드려요',     blank:{ w:'もう一度', opts:['もう一度','ゆっくり','たくさん','もっと'] } },
+  { id:'g6',  cat:'greet', jp:'助けてください',           hira:'たすけてください',         pron:'타스케테 쿠다사이',         ko:'도와주세요',              blank:null },
+  { id:'g7',  cat:'greet', jp:'はい / いいえ',            hira:'はい / いいえ',            pron:'하이 / 이이에',             ko:'네 / 아니요',             blank:null },
+  { id:'g8',  cat:'greet', jp:'お久しぶりです',           hira:'おひさしぶりです',         pron:'오히사시부리데스',          ko:'오랜만이에요',            blank:null },
+  { id:'g9',  cat:'greet', jp:'よろしくお願いします',     hira:'よろしくおねがいします',   pron:'요로시쿠 오네가이시마스',   ko:'잘 부탁드립니다',         blank:{ w:'よろしく', opts:['よろしく','ありがとう','すみません','どうぞ'] } },
+  { id:'g10', cat:'greet', jp:'大丈夫ですか',             hira:'だいじょうぶですか',       pron:'다이죠-부데스카',           ko:'괜찮으세요?',             blank:{ w:'大丈夫', opts:['大丈夫','お元気','お暇','お時間'] } },
+  { id:'g11', cat:'greet', jp:'どうぞ',                  hira:'どうぞ',                   pron:'도-조',                    ko:'어서요 / 여기 있어요',    blank:null },
+  { id:'g12', cat:'greet', jp:'お気をつけて',             hira:'おきをつけて',             pron:'오키오 츠케테',             ko:'조심히 가세요',           blank:null },
+
+  // ── 호텔 ─────────────────────────────────────────────────────────
+  { id:'h1',  cat:'hotel', jp:'チェックインをお願いします',   hira:'チェックインをおねがいします',   pron:'체크인 오 오네가이시마스',         ko:'체크인 부탁드립니다',       blank:{ w:'チェックイン', opts:['チェックイン','チェックアウト','ルームサービス','朝食'] } },
+  { id:'h2',  cat:'hotel', jp:'部屋の鍵をください',           hira:'へやのかぎをください',           pron:'헤야노 카기오 쿠다사이',           ko:'방 열쇠 주세요',             blank:{ w:'鍵', opts:['鍵','タオル','枕','毛布'] } },
+  { id:'h3',  cat:'hotel', jp:'Wi-Fiのパスワードは何ですか',  hira:'ワイファイのパスワードはなんですか', pron:'와이파이노 파스와-도와 난데스카', ko:'와이파이 비밀번호가 뭔가요?', blank:null },
+  { id:'h4',  cat:'hotel', jp:'タオルをください',             hira:'タオルをください',               pron:'타오루오 쿠다사이',               ko:'수건 주세요',                blank:null },
+  { id:'h5',  cat:'hotel', jp:'部屋を掃除してください',        hira:'へやをそうじしてください',       pron:'헤야오 소-지시테 쿠다사이',       ko:'방 청소해 주세요',           blank:null },
+  { id:'h6',  cat:'hotel', jp:'チェックアウトは何時ですか',   hira:'チェックアウトはなんじですか',   pron:'체크아우토와 난지데스카',         ko:'체크아웃이 몇 시예요?',      blank:{ w:'何時', opts:['何時','何階','何番','何日'] } },
+  { id:'h7',  cat:'hotel', jp:'予約しています',               hira:'よやくしています',               pron:'요야쿠시테이마스',                ko:'예약했어요',                 blank:{ w:'予約', opts:['予約','チェックイン','荷物','朝食'] } },
+  { id:'h8',  cat:'hotel', jp:'朝食は何時からですか',          hira:'ちょうしょくはなんじからですか', pron:'쵸-쇼쿠와 난지카라데스카',        ko:'조식은 몇 시부터예요?',      blank:{ w:'朝食', opts:['朝食','夕食','昼食','デザート'] } },
+  { id:'h9',  cat:'hotel', jp:'荷物を預けてもいいですか',      hira:'にもつをあずけてもいいですか',   pron:'니모츠오 아즈케테모 이이데스카',  ko:'짐 맡겨도 돼요?',            blank:null },
+  { id:'h10', cat:'hotel', jp:'エアコンが壊れています',        hira:'エアコンがこわれています',       pron:'에아콘가 코와레테이마스',         ko:'에어컨이 고장났어요',        blank:{ w:'エアコン', opts:['エアコン','テレビ','シャワー','ドア'] } },
+  { id:'h11', cat:'hotel', jp:'部屋を変えてください',          hira:'へやをかえてください',           pron:'헤야오 카에테 쿠다사이',          ko:'방을 바꿔주세요',            blank:null },
+
+  // ── 음식점 ───────────────────────────────────────────────────────
+  { id:'f1',  cat:'food', jp:'これをください',            hira:'これをください',             pron:'코레오 쿠다사이',             ko:'이것 주세요',           blank:{ w:'これ', opts:['これ','それ','あれ','どれ'] } },
+  { id:'f2',  cat:'food', jp:'おすすめは何ですか',         hira:'おすすめはなんですか',       pron:'오스스메와 난데스카',         ko:'추천 메뉴가 뭔가요?',   blank:null },
+  { id:'f3',  cat:'food', jp:'おいしいです',              hira:'おいしいです',               pron:'오이시이데스',               ko:'맛있어요',              blank:null },
+  { id:'f4',  cat:'food', jp:'お会計をお願いします',       hira:'おかいけいをおねがいします', pron:'오카이케이오 오네가이시마스', ko:'계산해 주세요',         blank:{ w:'お会計', opts:['お会計','お水','メニュー','お箸'] } },
+  { id:'f5',  cat:'food', jp:'お水をください',             hira:'おみずをください',           pron:'오미즈오 쿠다사이',           ko:'물 주세요',             blank:null },
+  { id:'f6',  cat:'food', jp:'辛くないものはありますか',   hira:'からくないものはありますか', pron:'카라쿠나이 모노와 아리마스카', ko:'안 매운 거 있나요?',    blank:null },
+  { id:'f7',  cat:'food', jp:'一人前ください',             hira:'いちにんまえください',       pron:'이치닌마에 쿠다사이',         ko:'1인분 주세요',          blank:null },
+  { id:'f8',  cat:'food', jp:'席はありますか',             hira:'せきはありますか',           pron:'세키와 아리마스카',           ko:'자리 있어요?',          blank:{ w:'席', opts:['席','部屋','テーブル','個室'] } },
+  { id:'f9',  cat:'food', jp:'持ち帰りできますか',         hira:'もちかえりできますか',       pron:'모치카에리 데키마스카',       ko:'포장 되나요?',          blank:{ w:'持ち帰り', opts:['持ち帰り','デリバリー','予約','食べ放題'] } },
+  { id:'f10', cat:'food', jp:'アレルギーがあります',       hira:'アレルギーがあります',       pron:'아레루기-가 아리마스',        ko:'알레르기가 있어요',     blank:null },
+  { id:'f11', cat:'food', jp:'定食はありますか',           hira:'ていしょくはありますか',     pron:'테이쇼쿠와 아리마스카',       ko:'정식 있나요?',          blank:{ w:'定食', opts:['定食','ラーメン','セット','コース'] } },
+  { id:'f12', cat:'food', jp:'おかわりをください',         hira:'おかわりをください',         pron:'오카와리오 쿠다사이',         ko:'리필 주세요',           blank:null },
+
+  // ── 교통 ─────────────────────────────────────────────────────────
+  { id:'t1',  cat:'transit', jp:'〜まで一枚ください',       hira:'〜までいちまいください',       pron:'~마데 이치마이 쿠다사이',    ko:'~까지 한 장 주세요',       blank:{ w:'一枚', opts:['一枚','二枚','三枚','四枚'] } },
+  { id:'t2',  cat:'transit', jp:'次の駅は何ですか',          hira:'つぎのえきはなんですか',       pron:'츠기노 에키와 난데스카',     ko:'다음 역이 어디예요?',      blank:{ w:'次', opts:['次','この','終わり','前'] } },
+  { id:'t3',  cat:'transit', jp:'出口はどこですか',           hira:'でぐちはどこですか',           pron:'데구치와 도코데스카',        ko:'출구가 어디예요?',         blank:{ w:'出口', opts:['出口','入口','トイレ','改札'] } },
+  { id:'t4',  cat:'transit', jp:'どこで乗り換えますか',       hira:'どこでのりかえますか',         pron:'도코데 노리카에마스카',      ko:'어디서 갈아타요?',         blank:null },
+  { id:'t5',  cat:'transit', jp:'〜行きの電車はどれですか',  hira:'〜ゆきのでんしゃはどれですか', pron:'~유키노 덴샤와 도레데스카',  ko:'~행 전철이 어느 거예요?',  blank:null },
+  { id:'t6',  cat:'transit', jp:'バス停はどこですか',         hira:'バスていはどこですか',         pron:'바스테이와 도코데스카',      ko:'버스 정류장이 어디예요?',  blank:null },
+  { id:'t7',  cat:'transit', jp:'終電は何時ですか',           hira:'しゅうでんはなんじですか',     pron:'슈-덴와 난지데스카',         ko:'막차가 몇 시예요?',        blank:{ w:'終電', opts:['終電','始発','急行','快速'] } },
+  { id:'t8',  cat:'transit', jp:'新幹線の乗り場はどこですか', hira:'しんかんせんのりばはどこですか', pron:'신칸센 노리바와 도코데스카', ko:'신칸센 탑승장이 어디예요?', blank:{ w:'新幹線', opts:['新幹線','地下鉄','バス','タクシー'] } },
+  { id:'t9',  cat:'transit', jp:'この電車は急行ですか',       hira:'このでんしゃはきゅうこうですか', pron:'코노 덴샤와 큐-코-데스카',  ko:'이 전철은 급행이에요?',    blank:{ w:'急行', opts:['急行','各駅停車','特急','準急'] } },
+  { id:'t10', cat:'transit', jp:'乗り過ごしました',           hira:'のりすごしました',             pron:'노리스고시마시타',           ko:'(역을) 지나쳤어요',        blank:null },
+  { id:'t11', cat:'transit', jp:'切符はどこで買えますか',     hira:'きっぷはどこでかえますか',     pron:'킵푸와 도코데 카에마스카',   ko:'표는 어디서 살 수 있어요?', blank:null },
+
+  // ── 관광지 ───────────────────────────────────────────────────────
+  { id:'s1',  cat:'sightseeing', jp:'写真を撮ってもいいですか',      hira:'しゃしんをとってもいいですか',       pron:'샤싱오 톳테모 이이데스카',       ko:'사진 찍어도 돼요?',             blank:{ w:'写真', opts:['写真','動画','見学','地図'] } },
+  { id:'s2',  cat:'sightseeing', jp:'一緒に写真を撮ってください',    hira:'いっしょにしゃしんをとってください', pron:'잇쇼니 샤싱오 톳테 쿠다사이',   ko:'같이 사진 찍어 주세요',         blank:null },
+  { id:'s3',  cat:'sightseeing', jp:'トイレはどこですか',            hira:'トイレはどこですか',                pron:'토이레와 도코데스카',             ko:'화장실이 어디예요?',            blank:{ w:'トイレ', opts:['トイレ','出口','入口','売店'] } },
+  { id:'s4',  cat:'sightseeing', jp:'入場料はいくらですか',          hira:'にゅうじょうりょうはいくらですか',  pron:'뉴-죠-료-와 이쿠라데스카',       ko:'입장료가 얼마예요?',            blank:null },
+  { id:'s5',  cat:'sightseeing', jp:'地図をください',                hira:'ちずをください',                    pron:'치즈오 쿠다사이',                 ko:'지도 주세요',                   blank:null },
+  { id:'s6',  cat:'sightseeing', jp:'何時まで開いていますか',        hira:'なんじまであいていますか',          pron:'난지마데 아이테이마스카',         ko:'몇 시까지 열어요?',             blank:null },
+  { id:'s7',  cat:'sightseeing', jp:'営業時間を教えてください',      hira:'えいぎょうじかんをおしえてください', pron:'에이교-지칸오 오시에테 쿠다사이', ko:'영업시간 알려주세요',            blank:null },
+  { id:'s8',  cat:'sightseeing', jp:'割引はありますか',              hira:'わりびきはありますか',              pron:'와리비키와 아리마스카',           ko:'할인 있어요?',                  blank:{ w:'割引', opts:['割引','無料','有料','定額'] } },
+  { id:'s9',  cat:'sightseeing', jp:'近くにおすすめのお店はありますか', hira:'ちかくにおすすめのおみせはありますか', pron:'치카쿠니 오스스메노 오미세와 아리마스카', ko:'근처에 추천 가게 있어요?', blank:null },
+  { id:'s10', cat:'sightseeing', jp:'ここから歩いて何分ですか',      hira:'ここからあるいてなんぷんですか',    pron:'코코카라 아루이테 난푼데스카',    ko:'여기서 걸어서 몇 분이에요?',    blank:{ w:'歩いて', opts:['歩いて','電車で','タクシーで','バスで'] } },
+  { id:'s11', cat:'sightseeing', jp:'両替できる場所はありますか',    hira:'りょうがえできるばしょはありますか', pron:'료-가에 데키루 바쇼와 아리마스카', ko:'환전할 수 있는 곳 있어요?',    blank:null },
+
+  // ── 엄마용 고급 🔥 ──────────────────────────────────────────────
+  { id:'m1',  cat:'mama', jp:'なるほどですね',
+    hira:'なるほどですね', pron:'나루호도데스네',
+    ko:'아, 그렇군요~ (맞장구칠 때 만능 표현)',
+    blank:null },
+  { id:'m2',  cat:'mama', jp:'やばい！',
+    hira:'やばい',         pron:'야바이',
+    ko:'대박! / 헐! / 미쳤다! (일본 젊은이 최애 감탄사)',
+    blank:null },
+  { id:'m3',  cat:'mama', jp:'お疲れ様です',
+    hira:'おつかれさまです', pron:'오츠카레사마데스',
+    ko:'수고하세요 / 수고했어요 (직장인 일상 인사 필수)',
+    blank:null },
+  { id:'m4',  cat:'mama', jp:'ちょっといいですか？',
+    hira:'ちょっといいですか', pron:'쵸토 이이데스카',
+    ko:'잠깐 괜찮으세요? (말 걸 때 부드러운 시작)',
+    blank:null },
+  { id:'m5',  cat:'mama', jp:'うそでしょ！',
+    hira:'うそでしょ',      pron:'우소데쇼',
+    ko:'설마?! / 거짓말이지?! (놀랐을 때)',
+    blank:null },
+  { id:'m6',  cat:'mama', jp:'どんまい',
+    hira:'どんまい',        pron:'돈마이',
+    ko:'괜찮아! 파이팅! (Don\'t mind에서 온 표현)',
+    blank:null },
+  { id:'m7',  cat:'mama', jp:'布団が吹っ飛んだ',
+    hira:'ふとんがふっとんだ', pron:'후톤가 훗톤다',
+    ko:'이불이 날아갔다 🤣 (일본 대표 말장난 개그 · ふとん↔ふっとん)',
+    blank:null },
+  { id:'m8',  cat:'mama', jp:'空気読んでよ',
+    hira:'くうきよんでよ',   pron:'쿠-키 욘데요',
+    ko:'눈치 좀 챙겨! (空気を読む = 분위기 파악하다)',
+    blank:null },
+  { id:'m9',  cat:'mama', jp:'インスタ映えするね！',
+    hira:'インスタばえするね', pron:'인스타바에 스루네',
+    ko:'인스타 각이다! (SNS 세대 필수 표현)',
+    blank:null },
+  { id:'m10', cat:'mama', jp:'七転び八起き',
+    hira:'ななころびやおき', pron:'나나코로비 야오키',
+    ko:'칠전팔기 (위로할 때 쓰는 격언)',
+    blank:null },
+  { id:'m11', cat:'mama', jp:'一石二鳥ですね',
+    hira:'いっせきにちょうですね', pron:'잇세키니쵸-데스네',
+    ko:'일석이조네요 (일거양득 상황에서)',
+    blank:null },
+  { id:'m12', cat:'mama', jp:'お腹が空いた、どこか食べに行かない？',
+    hira:'おなかがすいた、どこかたべにいかない', pron:'오나카가 스이타, 도코카 타베니 이카나이',
+    ko:'배고파, 어디 먹으러 가지 않을래? (친근한 친구끼리)',
+    blank:null },
+  { id:'m13', cat:'mama', jp:'それはちょっと…',
+    hira:'それはちょっと',  pron:'소레와 쵸토',
+    ko:'그건 좀... (직접 거절 대신 돌려 말하는 일본식 표현)',
+    blank:null },
+  { id:'m14', cat:'mama', jp:'今日も一日お疲れ様！でも明日も仕事よ',
+    hira:'きょうもいちにちおつかれさま！でもあしたもしごとよ', pron:'쿄-모 이치니치 오츠카레사마! 데모 아시타모 시고토요',
+    ko:'오늘도 하루 수고! 근데... 내일도 일이야 😂 (직장인 유머)',
+    blank:null },
+  { id:'m15', cat:'mama', jp:'パンでも食べられないパンはなーんだ？フライパン！',
+    hira:'ぱんでもたべられないぱんはなーんだ？ふらいぱん', pron:'팬인데 먹을 수 없는 팬은? 프라이팬!',
+    ko:'빵인데 못 먹는 빵은? → 프라이팬! 🍳 (일본 어린이 수수께끼 개그)',
+    blank:null },
+];
+
+// ── STORAGE ───────────────────────────────────────────────────────
+const SK = 'japan_jp_v1';
+let learned = {}, quizBest = 0;
+
+function load() {
+  try { const d = JSON.parse(localStorage.getItem(SK)||'{}'); learned = d.learned||{}; quizBest = d.quizBest||0; }
+  catch(e) { learned = {}; quizBest = 0; }
+}
+function save() { localStorage.setItem(SK, JSON.stringify({ learned, quizBest })); }
+load();
+
+// ── TABS ─────────────────────────────────────────────────────────
+function showTab(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  const idx = ['learn','quiz','repeat','progress'].indexOf(id);
+  document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+  if (id==='progress') renderProgress();
+  if (id==='quiz')     renderQuizSetup();
+  if (id==='repeat')   renderRepeatSetup();
+}
+
+// ── TTS ──────────────────────────────────────────────────────────
+function speak(text) {
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ja-JP'; u.rate = 0.85;
+  speechSynthesis.speak(u);
+}
+const esc = s => (s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"');
+
+// ── LEARN ────────────────────────────────────────────────────────
+let learnCat = null, learnIdx = 0;
+
+function initLearn() { renderLearnCats(); }
+
+function renderLearnCats() {
+  document.getElementById('learn-cats').classList.remove('hidden');
+  document.getElementById('learn-cards').classList.add('hidden');
+  document.getElementById('learn-cats').innerHTML = `
+    <div class="section-title">카테고리 선택</div>
+    <div class="cat-grid">
+      ${CATS.map(cat => {
+        const ps = PHRASES.filter(p=>p.cat===cat.id);
+        const done = ps.filter(p=>learned[p.id]).length;
+        const pct = ps.length ? Math.round(done/ps.length*100) : 0;
+        return `<div class="cat-card" onclick="openLearnCat('${cat.id}')">
+          <span class="cat-emoji">${cat.emoji}</span>
+          <div class="cat-name">${cat.name}</div>
+          <div class="cat-prog">${done}/${ps.length} 완료</div>
+          <div class="mini-bar"><div class="mini-fill" style="width:${pct}%"></div></div>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+function openLearnCat(catId) {
+  learnCat = catId; learnIdx = 0;
+  document.getElementById('learn-cats').classList.add('hidden');
+  document.getElementById('learn-cards').classList.remove('hidden');
+  renderLearnCard();
+}
+
+function renderLearnCard() {
+  const ps = PHRASES.filter(p=>p.cat===learnCat);
+  const p  = ps[learnIdx];
+  const cat = CATS.find(c=>c.id===learnCat);
+  const done = learned[p.id];
+  document.getElementById('learn-cards').innerHTML = `
+    <button class="back-btn" onclick="renderLearnCats()">← 목록</button>
+    <div class="counter">${learnIdx+1} / ${ps.length}</div>
+    <div class="phrase-card">
+      <div class="cat-tag">${cat.emoji} ${cat.name}</div>
+      <div class="phrase-jp">${p.jp}</div>
+      ${p.hira !== p.jp ? `<div class="phrase-hira">${p.hira}</div>` : ''}
+      <div class="phrase-pron">📣 ${p.pron}</div>
+      <hr class="divider">
+      <div class="phrase-ko" style="font-size:${p.cat==='mama'?'15px':'20px'}">${p.ko}</div>
+      <div class="card-actions">
+        <button class="tts-btn" onclick="speak('${esc(p.jp)}')">🔊 듣기</button>
+        <button class="check-btn ${done?'done':''}" onclick="toggleLearned('${p.id}')">
+          ${done ? '✓ 완료' : '✓ 체크'}
+        </button>
+      </div>
+    </div>
+    <div class="nav-arrows">
+      <button class="arrow-btn" onclick="stepLearn(-1)" ${learnIdx===0?'disabled':''}>← 이전</button>
+      <button class="arrow-btn" onclick="stepLearn(1)"  ${learnIdx===ps.length-1?'disabled':''}>다음 →</button>
+    </div>`;
+}
+
+function stepLearn(d) {
+  const ps = PHRASES.filter(p=>p.cat===learnCat);
+  learnIdx = Math.max(0, Math.min(ps.length-1, learnIdx+d));
+  renderLearnCard();
+}
+
+function toggleLearned(id) {
+  learned[id] = !learned[id];
+  save(); renderLearnCard();
+}
+
+// ── QUIZ ─────────────────────────────────────────────────────────
+let qCat=null, qList=[], qIdx=0, qScore=0;
+
+function renderQuizSetup() {
+  document.getElementById('quiz-setup').classList.remove('hidden');
+  document.getElementById('quiz-active').classList.add('hidden');
+  document.getElementById('quiz-result').classList.add('hidden');
+  document.getElementById('quiz-setup').innerHTML = `
+    <div class="section-title">퀴즈</div>
+    <p class="text-muted" style="margin-bottom:10px">카테고리 선택 (전체 or 하나)</p>
+    <div class="filter-wrap">
+      <button class="filter-btn ${!qCat?'on':''}" onclick="setQCat(null)">전체</button>
+      ${CATS.map(c=>`<button class="filter-btn ${qCat===c.id?'on':''}" onclick="setQCat('${c.id}')">${c.emoji} ${c.name}</button>`).join('')}
+    </div>
+    ${quizBest ? `<div class="text-muted mt-12">최고 점수: ${quizBest} / 10</div>` : ''}
+    <button class="start-btn" onclick="startQuiz()">퀴즈 시작! 🎯</button>`;
+}
+
+function setQCat(c) { qCat = c; renderQuizSetup(); }
+
+function startQuiz() {
+  const pool = (qCat ? PHRASES.filter(p=>p.cat===qCat) : PHRASES);
+  if (pool.length < 4) { alert('문장이 너무 적어요!'); return; }
+  const shuffled = [...pool].sort(()=>Math.random()-0.5);
+  qList = shuffled.slice(0, Math.min(10, shuffled.length)).map((p, i) => {
+    // cycle through types: 0=객관식, 1=듣기, 2=빈칸
+    let type = i % 3;
+    if (type === 2 && !p.blank) type = 0;
+    return { p, type };
+  });
+  qIdx = 0; qScore = 0;
+  document.getElementById('quiz-setup').classList.add('hidden');
+  document.getElementById('quiz-result').classList.add('hidden');
+  document.getElementById('quiz-active').classList.remove('hidden');
+  renderQ();
+}
+
+function renderQ() {
+  if (qIdx >= qList.length) { showResult(); return; }
+  const { p, type } = qList[qIdx];
+  const others = PHRASES.filter(x=>x.id!==p.id).sort(()=>Math.random()-0.5).slice(0,3);
+  let html = '';
+
+  if (type === 0) {
+    // 객관식: 한국어 → 일본어 고르기
+    const opts = shuffle([p,...others]).map(o=>
+      `<div class="opt-row">
+        <button class="opt" data-id="${o.id}" onclick="answerMC(this.closest('.opt-row'),'${p.id}')">${o.jp}</button>
+        <button class="spk-btn" onclick="event.stopPropagation();speak('${esc(o.jp)}')">🔊</button>
+      </div>`).join('');
+    html = `
+      <div class="quiz-card">
+        <div class="quiz-tag">📝 맞는 일본어를 고르세요</div>
+        <div class="quiz-q">${p.ko}</div>
+      </div>
+      <div class="options">${opts}</div>`;
+
+  } else if (type === 1) {
+    // 듣기: TTS → 한국어 뜻 고르기
+    const opts = shuffle([p,...others]).map(o=>
+      `<div class="opt-row">
+        <button class="opt" data-id="${o.id}" onclick="answerMC(this.closest('.opt-row'),'${p.id}')">${o.ko}</button>
+        <button class="spk-btn" onclick="event.stopPropagation();speak('${esc(o.jp)}')">🔊</button>
+      </div>`).join('');
+    html = `
+      <div class="quiz-card">
+        <div class="quiz-tag">🔊 듣고 뜻을 고르세요</div>
+        <div class="quiz-q" style="color:#aaa;font-size:15px">아래 버튼으로 들어보세요!</div>
+        <button class="audio-btn" onclick="speak('${esc(p.jp)}')">🔊 듣기</button>
+      </div>
+      <div class="options">${opts}</div>`;
+    setTimeout(()=>speak(p.jp), 500);
+
+  } else {
+    // 빈칸: 일본어 빈칸 → 단어 고르기
+    const b = p.blank;
+    const display = p.jp.replace(b.w, '＿＿＿');
+    const opts = shuffle(b.opts).map(o=>
+      `<div class="opt-row">
+        <button class="opt" onclick="answerBlank(this.closest('.opt-row'),'${esc(o)}','${esc(b.w)}')">${o}</button>
+        <button class="spk-btn" onclick="event.stopPropagation();speak('${esc(o)}')">🔊</button>
+      </div>`).join('');
+    html = `
+      <div class="quiz-card">
+        <div class="quiz-tag">✏️ 빈칸을 채우세요</div>
+        <div class="quiz-q">${display}</div>
+        <div class="quiz-sub">${p.ko}</div>
+      </div>
+      <div class="options">${opts}</div>`;
+  }
+
+  document.getElementById('quiz-active').innerHTML = `
+    <div class="q-progress">
+      <div class="q-progress-row">
+        <span>문제 ${qIdx+1} / ${qList.length}</span>
+        <span>⭐ ${qScore}점</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${qIdx/qList.length*100}%"></div></div>
+    </div>
+    ${html}
+    <div id="qfb" class="hidden"></div>`;
+}
+
+function answerMC(row, correctId) {
+  const rows = document.querySelectorAll('.opt-row');
+  rows.forEach(r => r.querySelector('.opt').disabled = true);
+  const isOK = row.querySelector('.opt').dataset.id === correctId;
+  row.classList.add(isOK ? 'correct' : 'wrong');
+  row.querySelector('.opt').classList.add(isOK ? 'correct' : 'wrong');
+  if (!isOK) rows.forEach(r => {
+    if (r.querySelector('.opt').dataset.id === correctId) {
+      r.classList.add('correct'); r.querySelector('.opt').classList.add('correct');
+    }
+  });
+  if (isOK) { qScore++; learned[correctId] = true; save(); }
+  showFB(isOK, correctId);
+}
+
+function answerBlank(row, selected, correct) {
+  document.querySelectorAll('.opt-row').forEach(r => {
+    const b = r.querySelector('.opt');
+    b.disabled = true;
+    if (b.textContent.trim() === correct) { r.classList.add('correct'); b.classList.add('correct'); }
+  });
+  const isOK = selected === correct;
+  if (!isOK) { row.classList.add('wrong'); row.querySelector('.opt').classList.add('wrong'); }
+  if (isOK) { qScore++; learned[qList[qIdx].p.id] = true; save(); }
+  showFB(isOK, qList[qIdx].p.id);
+}
+
+function showFB(ok, correctId) {
+  const cp = PHRASES.find(p=>p.id===correctId);
+  const isLast = qIdx === qList.length - 1;
+  document.getElementById('qfb').classList.remove('hidden');
+  document.getElementById('qfb').innerHTML = `
+    <div class="feedback-box">
+      <span class="fb-emoji">${ok ? '🎉' : '😅'}</span>
+      <div class="fb-text">${ok ? '정답이에요!' : '아쉬워요!'}</div>
+      ${!ok ? `<div class="fb-ans">정답: ${cp.jp}　(${cp.ko})</div>` : ''}
+    </div>
+    <button class="next-btn" onclick="nextQ()">${isLast ? '결과 보기 🎉' : '다음 문제 →'}</button>`;
+}
+
+function nextQ() { qIdx++; renderQ(); }
+
+function showResult() {
+  document.getElementById('quiz-active').classList.add('hidden');
+  const res = document.getElementById('quiz-result');
+  res.classList.remove('hidden');
+  if (qScore > quizBest) { quizBest = qScore; save(); }
+  const pct = Math.round(qScore/qList.length*100);
+  const [emoji, msg] =
+    pct===100 ? ['🏆','완벽해요! 천재!'] :
+    pct>=80   ? ['🌟','아주 잘했어요!'] :
+    pct>=60   ? ['👍','잘했어요! 더 해봐요!'] :
+                ['💪','다시 도전해봐요!'];
+  res.innerHTML = `
+    <div class="result-card">
+      <span class="result-emoji">${emoji}</span>
+      <div class="result-score">${qScore} / ${qList.length}</div>
+      <div class="result-label">맞힌 문제</div>
+      <div class="result-msg">${msg}</div>
+    </div>
+    <button class="start-btn" onclick="startQuiz()">다시 도전! 🎯</button>
+    <button class="outline-btn" onclick="renderQuizSetup()">카테고리 변경</button>`;
+}
+
+const shuffle = arr => [...arr].sort(()=>Math.random()-0.5);
+
+// ── LISTEN & REPEAT ───────────────────────────────────────────────
+let repCat=null, repIdx=0, recog=null, isRecording=false;
+
+function renderRepeatSetup() {
+  repCat = null;
+  if (isRecording) stopMic();
+  document.getElementById('repeat-active').classList.add('hidden');
+  document.getElementById('repeat-setup').innerHTML = `
+    <div class="section-title">듣고 따라하기</div>
+    <p class="text-muted" style="margin-bottom:12px">카테고리를 선택하세요</p>
+    <div class="cat-grid">
+      ${CATS.map(cat=>{
+        const cnt = PHRASES.filter(p=>p.cat===cat.id).length;
+        return `<div class="cat-card" onclick="startRepeat('${cat.id}')">
+          <span class="cat-emoji">${cat.emoji}</span>
+          <div class="cat-name">${cat.name}</div>
+          <div class="cat-prog">${cnt}개 문장</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+function startRepeat(catId) {
+  repCat = catId; repIdx = 0;
+  document.getElementById('repeat-setup').innerHTML = '';
+  renderRepeatCard();
+}
+
+function renderRepeatCard() {
+  if (isRecording) stopMic();
+  const ps = PHRASES.filter(p=>p.cat===repCat);
+  const p  = ps[repIdx];
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const hasMic = !!SpeechRec;
+  const act = document.getElementById('repeat-active');
+  act.classList.remove('hidden');
+  act.innerHTML = `
+    <button class="back-btn" onclick="renderRepeatSetup()">← 목록</button>
+    <div class="counter">${repIdx+1} / ${ps.length}</div>
+
+    <div class="repeat-card">
+      <div class="step-tag">STEP 1 — 듣기</div>
+      <div class="phrase-jp">${p.jp}</div>
+      <div class="phrase-hira" style="margin-top:8px;font-size:14px;color:#888">${p.pron}</div>
+      <div style="font-size:18px;font-weight:700;margin-top:10px">${p.ko}</div>
+      <button class="tts-btn" style="margin:18px auto 0;display:inline-flex" onclick="speak('${esc(p.jp)}')">🔊 듣기</button>
+    </div>
+
+    <div class="repeat-card">
+      <div class="step-tag">STEP 2 — 따라하기</div>
+      ${hasMic ? `
+        <div class="mic-wrap">
+          <button class="mic-btn" id="mic-btn" onclick="toggleMic('${esc(p.jp)}')">🎤</button>
+        </div>
+        <div class="mic-label" id="mic-label">버튼을 누르고 말해보세요</div>
+        <div class="recog-box" id="recog-box">인식된 내용이 여기 표시돼요</div>
+        <div id="mic-result"></div>
+      ` : `
+        <div style="padding:24px;text-align:center;color:#aaa;font-size:13px;line-height:1.8">
+          ⚠️ 이 브라우저에서는 음성 인식이 지원되지 않아요.<br>
+          Chrome 브라우저를 사용해주세요.
+        </div>
+      `}
+    </div>
+
+    <div class="nav-arrows">
+      <button class="arrow-btn" onclick="stepRepeat(-1)" ${repIdx===0?'disabled':''}>← 이전</button>
+      <button class="arrow-btn" onclick="stepRepeat(1)"  ${repIdx===ps.length-1?'disabled':''}>다음 →</button>
+    </div>`;
+  setTimeout(()=>speak(p.jp), 400);
+}
+
+function stepRepeat(d) {
+  const ps = PHRASES.filter(p=>p.cat===repCat);
+  repIdx = Math.max(0, Math.min(ps.length-1, repIdx+d));
+  renderRepeatCard();
+}
+
+function toggleMic(target) { isRecording ? stopMic() : startMic(target); }
+
+function startMic(target) {
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRec) return;
+  recog = new SpeechRec();
+  recog.lang = 'ja-JP';
+  recog.continuous = false;
+  recog.interimResults = true;
+  isRecording = true;
+  const btn = document.getElementById('mic-btn');
+  const lbl = document.getElementById('mic-label');
+  const box = document.getElementById('recog-box');
+  const res = document.getElementById('mic-result');
+  btn.classList.add('recording'); btn.textContent = '⏹';
+  lbl.textContent = '듣고 있어요... 말해보세요!';
+  box.style.color = '#2d2d2d';
+  recog.onresult = e => {
+    let interim='', final='';
+    for (let i=e.resultIndex; i<e.results.length; i++) {
+      if (e.results[i].isFinal) final += e.results[i][0].transcript;
+      else interim += e.results[i][0].transcript;
+    }
+    box.textContent = final || interim || '...';
+    if (final) {
+      const sim = similarity(final.replace(/\s/g,''), target.replace(/\s/g,'').replace(/〜/g,''));
+      let cls, msg;
+      if (sim>0.7)      { cls='good';  msg=`🎉 잘했어요! "${final}"`; }
+      else if (sim>0.4) { cls='retry'; msg=`👍 거의 맞아요! 다시! 정답: ${target}`; }
+      else              { cls='retry'; msg=`😊 연습이 필요해요! 정답: ${target}`; }
+      res.innerHTML = `<div class="recog-result ${cls}">${msg}</div>`;
+    }
+  };
+  recog.onerror = e => {
+    stopMic();
+    if (e.error !== 'no-speech') res.innerHTML = `<div class="recog-result err">오류: ${e.error}. 마이크 권한을 확인해주세요.</div>`;
+  };
+  recog.onend = () => stopMic();
+  recog.start();
+}
+
+function stopMic() {
+  isRecording = false;
+  try { recog && recog.stop(); } catch(e){}
+  const btn = document.getElementById('mic-btn');
+  const lbl = document.getElementById('mic-label');
+  if (btn) { btn.classList.remove('recording'); btn.textContent = '🎤'; }
+  if (lbl) lbl.textContent = '버튼을 누르고 말해보세요';
+}
+
+function similarity(a, b) {
+  if (!a||!b) return 0;
+  let m=0;
+  const [short,long] = a.length<b.length ? [a,b] : [b,a];
+  for (const c of short) if (long.includes(c)) m++;
+  return m / long.length;
+}
+
+// ── PROGRESS ─────────────────────────────────────────────────────
+function renderProgress() {
+  const total = PHRASES.length;
+  const done  = PHRASES.filter(p=>learned[p.id]).length;
+  const pct   = total ? Math.round(done/total*100) : 0;
+  document.getElementById('progress-content').innerHTML = `
+    <div class="total-card">
+      <div class="total-pct">${pct}%</div>
+      <div class="total-label">전체 학습 완료</div>
+      <div class="total-sub">${done} / ${total}문장 · 퀴즈 최고: ${quizBest}/10</div>
+    </div>
+    <div class="section-title" style="margin-top:4px">카테고리별 진도</div>
+    ${CATS.map(cat=>{
+      const ps = PHRASES.filter(p=>p.cat===cat.id);
+      const cd = ps.filter(p=>learned[p.id]).length;
+      const cp = ps.length ? Math.round(cd/ps.length*100) : 0;
+      return `<div class="prog-item">
+        <div class="prog-row">
+          <div class="prog-name">${cat.emoji} ${cat.name}</div>
+          <div class="prog-cnt">${cd} / ${ps.length}</div>
+        </div>
+        <div class="prog-bar2"><div class="prog-fill2" style="width:${cp}%"></div></div>
+      </div>`;
+    }).join('')}
+    <button class="reset-btn" onclick="resetAll()">진도 초기화</button>`;
+}
+
+function resetAll() {
+  if (!confirm('모든 학습 진도를 초기화할까요?')) return;
+  learned = {}; quizBest = 0; save(); renderProgress();
+}
+
+// ── INIT ─────────────────────────────────────────────────────────
+initLearn();
+</script>
+</body>
+</html>
