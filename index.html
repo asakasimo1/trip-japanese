@@ -442,7 +442,7 @@ const PHRASES = [
 
 // ── STORAGE ───────────────────────────────────────────────────────
 const SK = 'japan_jp_v1';
-let learned = {}, quizBest = 0;
+let learned = {}, quizBestNormal = 0, quizBestMama = 0;
 
 function load() {
   try {
@@ -549,8 +549,6 @@ function toggleLearned(id) {
 
 // ── QUIZ ─────────────────────────────────────────────────────────
 let qCat=null, qMode='normal', qList=[], qIdx=0, qScore=0;
-// quizBest 분리: { normal: 0, mama: 0 }
-let quizBestNormal=0, quizBestMama=0;
 
 function renderQuizSetup() {
   document.getElementById('quiz-setup').classList.remove('hidden');
@@ -893,7 +891,7 @@ function renderProgress() {
     <div class="total-card">
       <div class="total-pct">${pct}%</div>
       <div class="total-label">전체 학습 완료</div>
-      <div class="total-sub">${done} / ${total}문장 · 퀴즈 최고: ${quizBest}/10</div>
+      <div class="total-sub">${done} / ${total}문장 · 퀴즈 최고: 일반 ${quizBestNormal}/10 · 고급 ${quizBestMama}/10</div>
     </div>
     <div class="section-title" style="margin-top:4px">카테고리별 진도</div>
     ${CATS.map(cat=>{
@@ -913,7 +911,7 @@ function renderProgress() {
 
 function resetAll() {
   if (!confirm('모든 학습 진도를 초기화할까요?')) return;
-  learned = {}; quizBest = 0; save(); renderProgress();
+  learned = {}; quizBestNormal = 0; quizBestMama = 0; save(); renderProgress();
 }
 
 // ── INIT ─────────────────────────────────────────────────────────
