@@ -307,6 +307,12 @@ const CATS = [
   { id:'transit',     name:'교통',        emoji:'🚃' },
   { id:'sightseeing', name:'관광지',      emoji:'⛩️' },
   { id:'mama',        name:'엄마용 고급', emoji:'👩' },
+  // 단어 카테고리
+  { id:'w_num',   name:'숫자·돈',  emoji:'🔢', isWord:true },
+  { id:'w_food',  name:'음식 단어', emoji:'🍱', isWord:true },
+  { id:'w_place', name:'장소',     emoji:'📍', isWord:true },
+  { id:'w_adj',   name:'형용사',   emoji:'🎨', isWord:true },
+  { id:'w_time',  name:'시간',     emoji:'⏰', isWord:true },
 ];
 
 const PHRASES = [
@@ -484,6 +490,92 @@ const PHRASES = [
     hira:'かめのこうよりとしのこう', pron:'카메노 코-요리 토시노 코-',
     ko:'거북이 등보다 나이의 경험이 낫다 (연륜이 재산 · 어르신께 칭찬할 때)',
     blank:null },
+
+  // ── 단어: 숫자·돈 ────────────────────────────────────────────────
+  { id:'wn1',  cat:'w_num', jp:'一',    hira:'いち',     pron:'이치',   ko:'1 (일)',        blank:null },
+  { id:'wn2',  cat:'w_num', jp:'二',    hira:'に',       pron:'니',     ko:'2 (이)',        blank:null },
+  { id:'wn3',  cat:'w_num', jp:'三',    hira:'さん',     pron:'산',     ko:'3 (삼)',        blank:null },
+  { id:'wn4',  cat:'w_num', jp:'四',    hira:'し / よん', pron:'시 / 욘', ko:'4 (사)',       blank:null },
+  { id:'wn5',  cat:'w_num', jp:'五',    hira:'ご',       pron:'고',     ko:'5 (오)',        blank:null },
+  { id:'wn6',  cat:'w_num', jp:'六',    hira:'ろく',     pron:'로쿠',   ko:'6 (육)',        blank:null },
+  { id:'wn7',  cat:'w_num', jp:'七',    hira:'しち / なな', pron:'시치 / 나나', ko:'7 (칠)',  blank:null },
+  { id:'wn8',  cat:'w_num', jp:'八',    hira:'はち',     pron:'하치',   ko:'8 (팔)',        blank:null },
+  { id:'wn9',  cat:'w_num', jp:'九',    hira:'きゅう / く', pron:'큐- / 쿠', ko:'9 (구)',   blank:null },
+  { id:'wn10', cat:'w_num', jp:'十',    hira:'じゅう',   pron:'쥬-',    ko:'10 (십)',       blank:null },
+  { id:'wn11', cat:'w_num', jp:'百',    hira:'ひゃく',   pron:'햐쿠',   ko:'100 (백)',      blank:null },
+  { id:'wn12', cat:'w_num', jp:'千',    hira:'せん',     pron:'센',     ko:'1,000 (천)',    blank:null },
+  { id:'wn13', cat:'w_num', jp:'万',    hira:'まん',     pron:'만',     ko:'10,000 (만)',   blank:null },
+  { id:'wn14', cat:'w_num', jp:'円',    hira:'えん',     pron:'엔',     ko:'엔 (일본 화폐)', blank:null },
+  { id:'wn15', cat:'w_num', jp:'おつり', hira:'おつり',   pron:'오츠리', ko:'거스름돈',      blank:null },
+  { id:'wn16', cat:'w_num', jp:'合計',  hira:'ごうけい', pron:'고-케이', ko:'합계',         blank:null },
+
+  // ── 단어: 음식 ───────────────────────────────────────────────────
+  { id:'wf1',  cat:'w_food', jp:'ラーメン',   hira:'ラーメン',       pron:'라-멘',     ko:'라멘',       blank:null },
+  { id:'wf2',  cat:'w_food', jp:'寿司',       hira:'すし',           pron:'스시',      ko:'스시',       blank:null },
+  { id:'wf3',  cat:'w_food', jp:'天ぷら',     hira:'てんぷら',       pron:'텐푸라',    ko:'튀김',       blank:null },
+  { id:'wf4',  cat:'w_food', jp:'うどん',     hira:'うどん',         pron:'우동',      ko:'우동',       blank:null },
+  { id:'wf5',  cat:'w_food', jp:'そば',       hira:'そば',           pron:'소바',      ko:'메밀국수',   blank:null },
+  { id:'wf6',  cat:'w_food', jp:'牛丼',       hira:'ぎゅうどん',     pron:'규-동',     ko:'규동',       blank:null },
+  { id:'wf7',  cat:'w_food', jp:'焼肉',       hira:'やきにく',       pron:'야키니쿠',  ko:'야키니쿠',   blank:null },
+  { id:'wf8',  cat:'w_food', jp:'おにぎり',   hira:'おにぎり',       pron:'오니기리',  ko:'주먹밥',     blank:null },
+  { id:'wf9',  cat:'w_food', jp:'たこやき',   hira:'たこやき',       pron:'타코야키',  ko:'타코야키',   blank:null },
+  { id:'wf10', cat:'w_food', jp:'抹茶',       hira:'まっちゃ',       pron:'맛차',      ko:'말차',       blank:null },
+  { id:'wf11', cat:'w_food', jp:'刺身',       hira:'さしみ',         pron:'사시미',    ko:'생선회',     blank:null },
+  { id:'wf12', cat:'w_food', jp:'唐揚げ',     hira:'からあげ',       pron:'카라아게',  ko:'닭튀김',     blank:null },
+  { id:'wf13', cat:'w_food', jp:'味噌汁',     hira:'みそしる',       pron:'미소시루',  ko:'된장국',     blank:null },
+  { id:'wf14', cat:'w_food', jp:'親子丼',     hira:'おやこどん',     pron:'오야코동',  ko:'오야코동',   blank:null },
+  { id:'wf15', cat:'w_food', jp:'わさび',     hira:'わさび',         pron:'와사비',    ko:'고추냉이',   blank:null },
+
+  // ── 단어: 장소 ───────────────────────────────────────────────────
+  { id:'wp1',  cat:'w_place', jp:'駅',     hira:'えき',         pron:'에키',      ko:'역',         blank:null },
+  { id:'wp2',  cat:'w_place', jp:'空港',   hira:'くうこう',     pron:'쿠-코-',    ko:'공항',       blank:null },
+  { id:'wp3',  cat:'w_place', jp:'コンビニ', hira:'コンビニ',   pron:'콘비니',    ko:'편의점',     blank:null },
+  { id:'wp4',  cat:'w_place', jp:'薬局',   hira:'やっきょく',   pron:'약쿄쿠',    ko:'약국',       blank:null },
+  { id:'wp5',  cat:'w_place', jp:'ホテル', hira:'ホテル',       pron:'호테루',    ko:'호텔',       blank:null },
+  { id:'wp6',  cat:'w_place', jp:'神社',   hira:'じんじゃ',     pron:'진자',      ko:'신사',       blank:null },
+  { id:'wp7',  cat:'w_place', jp:'お寺',   hira:'おてら',       pron:'오테라',    ko:'절',         blank:null },
+  { id:'wp8',  cat:'w_place', jp:'公園',   hira:'こうえん',     pron:'코-엔',     ko:'공원',       blank:null },
+  { id:'wp9',  cat:'w_place', jp:'病院',   hira:'びょういん',   pron:'뵤-인',     ko:'병원',       blank:null },
+  { id:'wp10', cat:'w_place', jp:'銀行',   hira:'ぎんこう',     pron:'긴코-',     ko:'은행',       blank:null },
+  { id:'wp11', cat:'w_place', jp:'デパート', hira:'デパート',   pron:'데파-토',   ko:'백화점',     blank:null },
+  { id:'wp12', cat:'w_place', jp:'温泉',   hira:'おんせん',     pron:'온센',      ko:'온천',       blank:null },
+  { id:'wp13', cat:'w_place', jp:'交番',   hira:'こうばん',     pron:'코-반',     ko:'파출소',     blank:null },
+  { id:'wp14', cat:'w_place', jp:'バス停', hira:'バスてい',     pron:'바스테이',  ko:'버스 정류장', blank:null },
+  { id:'wp15', cat:'w_place', jp:'観光案内所', hira:'かんこうあんないじょ', pron:'칸코- 안나이죠', ko:'관광안내소', blank:null },
+
+  // ── 단어: 형용사 ─────────────────────────────────────────────────
+  { id:'wa1',  cat:'w_adj', jp:'赤',     hira:'あか',     pron:'아카',   ko:'빨간색',    blank:null },
+  { id:'wa2',  cat:'w_adj', jp:'青',     hira:'あお',     pron:'아오',   ko:'파란색',    blank:null },
+  { id:'wa3',  cat:'w_adj', jp:'白',     hira:'しろ',     pron:'시로',   ko:'흰색',      blank:null },
+  { id:'wa4',  cat:'w_adj', jp:'黒',     hira:'くろ',     pron:'쿠로',   ko:'검은색',    blank:null },
+  { id:'wa5',  cat:'w_adj', jp:'大きい', hira:'おおきい', pron:'오-키이', ko:'크다',     blank:null },
+  { id:'wa6',  cat:'w_adj', jp:'小さい', hira:'ちいさい', pron:'치-사이', ko:'작다',     blank:null },
+  { id:'wa7',  cat:'w_adj', jp:'高い',   hira:'たかい',   pron:'타카이',  ko:'비싸다 / 높다', blank:null },
+  { id:'wa8',  cat:'w_adj', jp:'安い',   hira:'やすい',   pron:'야스이',  ko:'싸다',     blank:null },
+  { id:'wa9',  cat:'w_adj', jp:'近い',   hira:'ちかい',   pron:'치카이',  ko:'가깝다',   blank:null },
+  { id:'wa10', cat:'w_adj', jp:'遠い',   hira:'とおい',   pron:'토-이',   ko:'멀다',     blank:null },
+  { id:'wa11', cat:'w_adj', jp:'美味しい', hira:'おいしい', pron:'오이시이', ko:'맛있다', blank:null },
+  { id:'wa12', cat:'w_adj', jp:'辛い',   hira:'からい',   pron:'카라이',  ko:'맵다',     blank:null },
+  { id:'wa13', cat:'w_adj', jp:'暑い',   hira:'あつい',   pron:'아츠이',  ko:'덥다',     blank:null },
+  { id:'wa14', cat:'w_adj', jp:'寒い',   hira:'さむい',   pron:'사무이',  ko:'춥다',     blank:null },
+  { id:'wa15', cat:'w_adj', jp:'楽しい', hira:'たのしい', pron:'타노시이', ko:'즐겁다',  blank:null },
+
+  // ── 단어: 시간 ───────────────────────────────────────────────────
+  { id:'wt1',  cat:'w_time', jp:'今日',  hira:'きょう',   pron:'쿄-',    ko:'오늘',      blank:null },
+  { id:'wt2',  cat:'w_time', jp:'明日',  hira:'あした',   pron:'아시타',  ko:'내일',     blank:null },
+  { id:'wt3',  cat:'w_time', jp:'昨日',  hira:'きのう',   pron:'키노-',   ko:'어제',     blank:null },
+  { id:'wt4',  cat:'w_time', jp:'朝',    hira:'あさ',     pron:'아사',    ko:'아침',     blank:null },
+  { id:'wt5',  cat:'w_time', jp:'昼',    hira:'ひる',     pron:'히루',    ko:'낮 / 점심', blank:null },
+  { id:'wt6',  cat:'w_time', jp:'夜',    hira:'よる',     pron:'요루',    ko:'저녁 / 밤', blank:null },
+  { id:'wt7',  cat:'w_time', jp:'今',    hira:'いま',     pron:'이마',    ko:'지금',     blank:null },
+  { id:'wt8',  cat:'w_time', jp:'何時',  hira:'なんじ',   pron:'난지',    ko:'몇 시',    blank:null },
+  { id:'wt9',  cat:'w_time', jp:'午前',  hira:'ごぜん',   pron:'고젠',    ko:'오전',     blank:null },
+  { id:'wt10', cat:'w_time', jp:'午後',  hira:'ごご',     pron:'고고',    ko:'오후',     blank:null },
+  { id:'wt11', cat:'w_time', jp:'週末',  hira:'しゅうまつ', pron:'슈-마츠', ko:'주말',   blank:null },
+  { id:'wt12', cat:'w_time', jp:'休日',  hira:'きゅうじつ', pron:'큐-지츠', ko:'휴일',   blank:null },
+  { id:'wt13', cat:'w_time', jp:'今週',  hira:'こんしゅう', pron:'콘슈-',  ko:'이번 주', blank:null },
+  { id:'wt14', cat:'w_time', jp:'来週',  hira:'らいしゅう', pron:'라이슈-', ko:'다음 주', blank:null },
+  { id:'wt15', cat:'w_time', jp:'毎日',  hira:'まいにち',  pron:'마이니치', ko:'매일',   blank:null },
 ];
 
 // ── STORAGE ───────────────────────────────────────────────────────
@@ -531,31 +623,46 @@ function modeBtnStyle(active, color) {
   return `flex:1;padding:14px 8px;border-radius:14px;font-size:15px;font-weight:700;border:2px solid ${active?color:'#e0dbd5'};background:${active?(color==='#9b59b6'?'#f5eef8':'#fff3f3'):'white'};color:${active?color:'#888'}`;
 }
 
+function catCardHtml(cat, isMama, fullWidth) {
+  const ps = PHRASES.filter(p=>p.cat===cat.id);
+  const done = ps.filter(p=>learned[p.id]).length;
+  const pct = ps.length ? Math.round(done/ps.length*100) : 0;
+  const color = isMama ? '#9b59b6' : cat.isWord ? '#e67e22' : '#c0392b';
+  return `<div class="cat-card" onclick="openLearnCat('${cat.id}')" style="${fullWidth?'grid-column:1/-1;':''}">
+    <span class="cat-emoji">${cat.emoji}</span>
+    <div class="cat-name">${cat.name}</div>
+    <div class="cat-prog">${done}/${ps.length} 완료</div>
+    <div class="mini-bar"><div class="mini-fill" style="width:${pct}%;background:${color}"></div></div>
+  </div>`;
+}
+
 function renderLearnCats() {
   document.getElementById('learn-cats').classList.remove('hidden');
   document.getElementById('learn-cards').classList.add('hidden');
   const isMama = learnMode === 'mama';
-  const visibleCats = CATS.filter(c => isMama ? c.id==='mama' : c.id!=='mama');
+
+  let body = '';
+  if (isMama) {
+    body = `
+      <div style="background:#f5eef8;border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#6c3483;line-height:1.7">🔥 실제 일본인 표현·관용구·유머 20문장</div>
+      <div class="section-title">카테고리 선택</div>
+      <div class="cat-grid">${catCardHtml(CATS.find(c=>c.id==='mama'), true, true)}</div>`;
+  } else {
+    const convCats = CATS.filter(c=>!c.isWord && c.id!=='mama');
+    const wordCats = CATS.filter(c=>c.isWord);
+    body = `
+      <div class="section-title">💬 회화</div>
+      <div class="cat-grid">${convCats.map(c=>catCardHtml(c,false,false)).join('')}</div>
+      <div class="section-title" style="margin-top:20px">📝 단어</div>
+      <div class="cat-grid">${wordCats.map(c=>catCardHtml(c,false,false)).join('')}</div>`;
+  }
+
   document.getElementById('learn-cats').innerHTML = `
     <div style="display:flex;gap:10px;margin-bottom:20px">
       <button onclick="setLearnMode('normal')" style="${modeBtnStyle(!isMama,'#c0392b')}">📖 일반 학습</button>
       <button onclick="setLearnMode('mama')"  style="${modeBtnStyle(isMama,'#9b59b6')}">👩 엄마용 고급</button>
     </div>
-    ${isMama ? `<div style="background:#f5eef8;border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#6c3483;line-height:1.7">🔥 실제 일본인 표현·관용구·유머 15문장</div>` : ''}
-    <div class="section-title">카테고리 선택</div>
-    <div class="cat-grid">
-      ${visibleCats.map(cat => {
-        const ps = PHRASES.filter(p=>p.cat===cat.id);
-        const done = ps.filter(p=>learned[p.id]).length;
-        const pct = ps.length ? Math.round(done/ps.length*100) : 0;
-        return `<div class="cat-card" onclick="openLearnCat('${cat.id}')" style="${isMama?'grid-column:1/-1;':''}">
-          <span class="cat-emoji">${cat.emoji}</span>
-          <div class="cat-name">${cat.name}</div>
-          <div class="cat-prog">${done}/${ps.length} 완료</div>
-          <div class="mini-bar"><div class="mini-fill" style="width:${pct}%;background:${isMama?'#9b59b6':'#c0392b'}"></div></div>
-        </div>`;
-      }).join('')}
-    </div>`;
+    ${body}`;
 }
 
 function setLearnMode(mode) { learnMode = mode; renderLearnCats(); }
@@ -572,16 +679,27 @@ function renderLearnCard() {
   const p  = ps[learnIdx];
   const cat = CATS.find(c=>c.id===learnCat);
   const done = learned[p.id];
-  document.getElementById('learn-cards').innerHTML = `
-    <button class="back-btn" onclick="renderLearnCats()">← 목록</button>
-    <div class="counter">${learnIdx+1} / ${ps.length}</div>
-    <div class="phrase-card">
+  const isWord = !!cat.isWord;
+  const cardBody = isWord ? `
+      <div class="cat-tag" style="background:${done?'#fff8f0':'#fff8f0'};color:#e67e22">${cat.emoji} ${cat.name}</div>
+      <div style="font-size:52px;font-weight:800;color:#1a1a1a;line-height:1.2;margin-bottom:10px">${p.jp}</div>
+      <div style="font-size:18px;color:#888;margin-bottom:6px">${p.hira}</div>
+      <div class="phrase-pron">📣 ${p.pron}</div>
+      <hr class="divider">
+      <div style="font-size:22px;font-weight:700;color:#2d2d2d">${p.ko}</div>
+  ` : `
       <div class="cat-tag">${cat.emoji} ${cat.name}</div>
       <div class="phrase-jp">${p.jp}</div>
       ${p.hira !== p.jp ? `<div class="phrase-hira">${p.hira}</div>` : ''}
       <div class="phrase-pron">📣 ${p.pron}</div>
       <hr class="divider">
       <div class="phrase-ko" style="font-size:${p.cat==='mama'?'15px':'20px'}">${p.ko}</div>
+  `;
+  document.getElementById('learn-cards').innerHTML = `
+    <button class="back-btn" onclick="renderLearnCats()">← 목록</button>
+    <div class="counter">${learnIdx+1} / ${ps.length}</div>
+    <div class="phrase-card">
+      ${cardBody}
       <div class="card-actions">
         <button class="tts-btn" onclick="speak('${esc(p.jp)}')">🔊 듣기</button>
         <button class="check-btn ${done?'done':''}" onclick="toggleLearned('${p.id}')">
@@ -614,7 +732,8 @@ function renderQuizSetup() {
   document.getElementById('quiz-active').classList.add('hidden');
   document.getElementById('quiz-result').classList.add('hidden');
 
-  const normalCats = CATS.filter(c=>c.id!=='mama');
+  const convCats = CATS.filter(c=>!c.isWord && c.id!=='mama');
+  const wordCats = CATS.filter(c=>c.isWord);
   const isMama = qMode==='mama';
   const best = isMama ? quizBestMama : quizBestNormal;
 
@@ -638,10 +757,14 @@ function renderQuizSetup() {
       ${best ? `<div class="text-muted mt-12" style="margin-bottom:8px">최고 점수: ${best} / 10</div>` : ''}
       <button class="start-btn" style="background:#9b59b6" onclick="startQuiz()">고급 퀴즈 시작! 🔥</button>
     ` : `
-      <p class="text-muted" style="margin-bottom:10px">카테고리 선택 (전체 or 하나)</p>
+      <p class="text-muted" style="margin-bottom:8px">카테고리 선택 (전체 or 하나)</p>
       <div class="filter-wrap">
         <button class="filter-btn ${!qCat?'on':''}" onclick="setQCat(null)">전체</button>
-        ${normalCats.map(c=>`<button class="filter-btn ${qCat===c.id?'on':''}" onclick="setQCat('${c.id}')">${c.emoji} ${c.name}</button>`).join('')}
+        ${convCats.map(c=>`<button class="filter-btn ${qCat===c.id?'on':''}" onclick="setQCat('${c.id}')">${c.emoji} ${c.name}</button>`).join('')}
+      </div>
+      <p class="text-muted" style="margin:10px 0 8px">단어</p>
+      <div class="filter-wrap">
+        ${wordCats.map(c=>`<button class="filter-btn ${qCat===c.id?'on':''}" style="${qCat===c.id?'border-color:#e67e22;background:#fff8f0;color:#e67e22':''}" onclick="setQCat('${c.id}')">${c.emoji} ${c.name}</button>`).join('')}
       </div>
       ${best ? `<div class="text-muted mt-12" style="margin-bottom:8px">최고 점수: ${best} / 10</div>` : ''}
       <button class="start-btn" onclick="startQuiz()">퀴즈 시작! 🎯</button>
@@ -813,24 +936,38 @@ function renderRepeatSetup() {
   if (isRecording) stopMic();
   document.getElementById('repeat-active').classList.add('hidden');
   const isMama = repMode === 'mama';
-  const visibleCats = CATS.filter(c => isMama ? c.id==='mama' : c.id!=='mama');
+  const repConvCats = CATS.filter(c=>!c.isWord && c.id!=='mama');
+  const repWordCats = CATS.filter(c=>c.isWord);
+  const repCatCard = (cat, full) => {
+    const cnt = PHRASES.filter(p=>p.cat===cat.id).length;
+    const color = cat.isWord ? '#e67e22' : '#c0392b';
+    return `<div class="cat-card" onclick="startRepeat('${cat.id}')" style="${full?'grid-column:1/-1;':''}">
+      <span class="cat-emoji">${cat.emoji}</span>
+      <div class="cat-name">${cat.name}</div>
+      <div class="cat-prog">${cnt}개</div>
+    </div>`;
+  };
+
+  let repBody = '';
+  if (isMama) {
+    repBody = `
+      <div style="background:#f5eef8;border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#6c3483;line-height:1.7">🔥 고급 표현을 듣고 따라해보세요!</div>
+      <div class="section-title">카테고리 선택</div>
+      <div class="cat-grid">${repCatCard(CATS.find(c=>c.id==='mama'), true)}</div>`;
+  } else {
+    repBody = `
+      <div class="section-title">💬 회화</div>
+      <div class="cat-grid">${repConvCats.map(c=>repCatCard(c,false)).join('')}</div>
+      <div class="section-title" style="margin-top:20px">📝 단어</div>
+      <div class="cat-grid">${repWordCats.map(c=>repCatCard(c,false)).join('')}</div>`;
+  }
+
   document.getElementById('repeat-setup').innerHTML = `
     <div style="display:flex;gap:10px;margin-bottom:20px">
       <button onclick="setRepMode('normal')" style="${modeBtnStyle(!isMama,'#c0392b')}">🎤 일반</button>
       <button onclick="setRepMode('mama')"  style="${modeBtnStyle(isMama,'#9b59b6')}">👩 엄마용 고급</button>
     </div>
-    ${isMama ? `<div style="background:#f5eef8;border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#6c3483;line-height:1.7">🔥 고급 표현을 듣고 따라해보세요!</div>` : ''}
-    <div class="section-title">카테고리 선택</div>
-    <div class="cat-grid">
-      ${visibleCats.map(cat=>{
-        const cnt = PHRASES.filter(p=>p.cat===cat.id).length;
-        return `<div class="cat-card" onclick="startRepeat('${cat.id}')" style="${isMama?'grid-column:1/-1;':''}">
-          <span class="cat-emoji">${cat.emoji}</span>
-          <div class="cat-name">${cat.name}</div>
-          <div class="cat-prog">${cnt}개 문장</div>
-        </div>`;
-      }).join('')}
-    </div>`;
+    ${repBody}`;
 }
 
 function setRepMode(mode) { repMode = mode; renderRepeatSetup(); }
