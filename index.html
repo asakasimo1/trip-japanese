@@ -445,10 +445,14 @@ const SK = 'japan_jp_v1';
 let learned = {}, quizBest = 0;
 
 function load() {
-  try { const d = JSON.parse(localStorage.getItem(SK)||'{}'); learned = d.learned||{}; quizBest = d.quizBest||0; }
-  catch(e) { learned = {}; quizBest = 0; }
+  try {
+    const d = JSON.parse(localStorage.getItem(SK)||'{}');
+    learned = d.learned||{};
+    quizBestNormal = d.quizBestNormal||0;
+    quizBestMama   = d.quizBestMama||0;
+  } catch(e) { learned={}; quizBestNormal=0; quizBestMama=0; }
 }
-function save() { localStorage.setItem(SK, JSON.stringify({ learned, quizBest })); }
+function save() { localStorage.setItem(SK, JSON.stringify({ learned, quizBestNormal, quizBestMama })); }
 load();
 
 // ── TABS ─────────────────────────────────────────────────────────
@@ -544,27 +548,56 @@ function toggleLearned(id) {
 }
 
 // ── QUIZ ─────────────────────────────────────────────────────────
-let qCat=null, qList=[], qIdx=0, qScore=0;
+let qCat=null, qMode='normal', qList=[], qIdx=0, qScore=0;
+// quizBest 분리: { normal: 0, mama: 0 }
+let quizBestNormal=0, quizBestMama=0;
 
 function renderQuizSetup() {
   document.getElementById('quiz-setup').classList.remove('hidden');
   document.getElementById('quiz-active').classList.add('hidden');
   document.getElementById('quiz-result').classList.add('hidden');
+
+  const normalCats = CATS.filter(c=>c.id!=='mama');
+  const isMama = qMode==='mama';
+  const best = isMama ? quizBestMama : quizBestNormal;
+
   document.getElementById('quiz-setup').innerHTML = `
     <div class="section-title">퀴즈</div>
-    <p class="text-muted" style="margin-bottom:10px">카테고리 선택 (전체 or 하나)</p>
-    <div class="filter-wrap">
-      <button class="filter-btn ${!qCat?'on':''}" onclick="setQCat(null)">전체</button>
-      ${CATS.map(c=>`<button class="filter-btn ${qCat===c.id?'on':''}" onclick="setQCat('${c.id}')">${c.emoji} ${c.name}</button>`).join('')}
+
+    <!-- 모드 선택 -->
+    <div style="display:flex;gap:10px;margin-bottom:20px">
+      <button onclick="setQMode('normal')" style="flex:1;padding:16px 8px;border-radius:14px;border:2px solid ${!isMama?'#c0392b':'#e0dbd5'};background:${!isMama?'#fff3f3':'white'};color:${!isMama?'#c0392b':'#888'};font-size:15px;font-weight:700">
+        🎯 일반 퀴즈
+      </button>
+      <button onclick="setQMode('mama')" style="flex:1;padding:16px 8px;border-radius:14px;border:2px solid ${isMama?'#9b59b6':'#e0dbd5'};background:${isMama?'#f5eef8':'white'};color:${isMama?'#9b59b6':'#888'};font-size:15px;font-weight:700">
+        👩 엄마용 고급
+      </button>
     </div>
-    ${quizBest ? `<div class="text-muted mt-12">최고 점수: ${quizBest} / 10</div>` : ''}
-    <button class="start-btn" onclick="startQuiz()">퀴즈 시작! 🎯</button>`;
+
+    ${isMama ? `
+      <div style="background:#f5eef8;border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:#6c3483;line-height:1.7">
+        🔥 실제 일본인이 쓰는 표현·관용구·유머까지!<br>난이도 최고 — 엄마만 도전 가능 😤
+      </div>
+      ${best ? `<div class="text-muted mt-12" style="margin-bottom:8px">최고 점수: ${best} / 10</div>` : ''}
+      <button class="start-btn" style="background:#9b59b6" onclick="startQuiz()">고급 퀴즈 시작! 🔥</button>
+    ` : `
+      <p class="text-muted" style="margin-bottom:10px">카테고리 선택 (전체 or 하나)</p>
+      <div class="filter-wrap">
+        <button class="filter-btn ${!qCat?'on':''}" onclick="setQCat(null)">전체</button>
+        ${normalCats.map(c=>`<button class="filter-btn ${qCat===c.id?'on':''}" onclick="setQCat('${c.id}')">${c.emoji} ${c.name}</button>`).join('')}
+      </div>
+      ${best ? `<div class="text-muted mt-12" style="margin-bottom:8px">최고 점수: ${best} / 10</div>` : ''}
+      <button class="start-btn" onclick="startQuiz()">퀴즈 시작! 🎯</button>
+    `}`;
 }
 
+function setQMode(mode) { qMode=mode; qCat=null; renderQuizSetup(); }
 function setQCat(c) { qCat = c; renderQuizSetup(); }
 
 function startQuiz() {
-  const pool = (qCat ? PHRASES.filter(p=>p.cat===qCat) : PHRASES);
+  const pool = qMode==='mama'
+    ? PHRASES.filter(p=>p.cat==='mama')
+    : (qCat ? PHRASES.filter(p=>p.cat===qCat) : PHRASES.filter(p=>p.cat!=='mama'));
   if (pool.length < 4) { alert('문장이 너무 적어요!'); return; }
   const shuffled = [...pool].sort(()=>Math.random()-0.5);
   qList = shuffled.slice(0, Math.min(10, shuffled.length)).map((p, i) => {
@@ -692,7 +725,8 @@ function showResult() {
   document.getElementById('quiz-active').classList.add('hidden');
   const res = document.getElementById('quiz-result');
   res.classList.remove('hidden');
-  if (qScore > quizBest) { quizBest = qScore; save(); }
+  if (qMode==='mama') { if (qScore>quizBestMama) { quizBestMama=qScore; save(); } }
+  else { if (qScore>quizBestNormal) { quizBestNormal=qScore; save(); } }
   const pct = Math.round(qScore/qList.length*100);
   const [emoji, msg] =
     pct===100 ? ['🏆','완벽해요! 천재!'] :
@@ -706,8 +740,10 @@ function showResult() {
       <div class="result-label">맞힌 문제</div>
       <div class="result-msg">${msg}</div>
     </div>
-    <button class="start-btn" onclick="startQuiz()">다시 도전! 🎯</button>
-    <button class="outline-btn" onclick="renderQuizSetup()">카테고리 변경</button>`;
+    <button class="start-btn" style="background:${qMode==='mama'?'#9b59b6':'#c0392b'}" onclick="startQuiz()">
+      다시 도전! ${qMode==='mama'?'🔥':'🎯'}
+    </button>
+    <button class="outline-btn" style="color:${qMode==='mama'?'#9b59b6':'#c0392b'};border-color:${qMode==='mama'?'#9b59b6':'#c0392b'}" onclick="renderQuizSetup()">모드 변경</button>`;
 }
 
 const shuffle = arr => [...arr].sort(()=>Math.random()-0.5);
