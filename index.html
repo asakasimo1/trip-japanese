@@ -477,29 +477,42 @@ function speak(text) {
 const esc = s => (s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"');
 
 // ── LEARN ────────────────────────────────────────────────────────
-let learnCat = null, learnIdx = 0;
+let learnCat = null, learnIdx = 0, learnMode = 'normal';
 
 function initLearn() { renderLearnCats(); }
+
+function modeBtnStyle(active, color) {
+  return `flex:1;padding:14px 8px;border-radius:14px;font-size:15px;font-weight:700;border:2px solid ${active?color:'#e0dbd5'};background:${active?(color==='#9b59b6'?'#f5eef8':'#fff3f3'):'white'};color:${active?color:'#888'}`;
+}
 
 function renderLearnCats() {
   document.getElementById('learn-cats').classList.remove('hidden');
   document.getElementById('learn-cards').classList.add('hidden');
+  const isMama = learnMode === 'mama';
+  const visibleCats = CATS.filter(c => isMama ? c.id==='mama' : c.id!=='mama');
   document.getElementById('learn-cats').innerHTML = `
+    <div style="display:flex;gap:10px;margin-bottom:20px">
+      <button onclick="setLearnMode('normal')" style="${modeBtnStyle(!isMama,'#c0392b')}">📖 일반 학습</button>
+      <button onclick="setLearnMode('mama')"  style="${modeBtnStyle(isMama,'#9b59b6')}">👩 엄마용 고급</button>
+    </div>
+    ${isMama ? `<div style="background:#f5eef8;border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#6c3483;line-height:1.7">🔥 실제 일본인 표현·관용구·유머 15문장</div>` : ''}
     <div class="section-title">카테고리 선택</div>
     <div class="cat-grid">
-      ${CATS.map(cat => {
+      ${visibleCats.map(cat => {
         const ps = PHRASES.filter(p=>p.cat===cat.id);
         const done = ps.filter(p=>learned[p.id]).length;
         const pct = ps.length ? Math.round(done/ps.length*100) : 0;
-        return `<div class="cat-card" onclick="openLearnCat('${cat.id}')">
+        return `<div class="cat-card" onclick="openLearnCat('${cat.id}')" style="${isMama?'grid-column:1/-1;':''}">
           <span class="cat-emoji">${cat.emoji}</span>
           <div class="cat-name">${cat.name}</div>
           <div class="cat-prog">${done}/${ps.length} 완료</div>
-          <div class="mini-bar"><div class="mini-fill" style="width:${pct}%"></div></div>
+          <div class="mini-bar"><div class="mini-fill" style="width:${pct}%;background:${isMama?'#9b59b6':'#c0392b'}"></div></div>
         </div>`;
       }).join('')}
     </div>`;
 }
+
+function setLearnMode(mode) { learnMode = mode; renderLearnCats(); }
 
 function openLearnCat(catId) {
   learnCat = catId; learnIdx = 0;
@@ -747,19 +760,25 @@ function showResult() {
 const shuffle = arr => [...arr].sort(()=>Math.random()-0.5);
 
 // ── LISTEN & REPEAT ───────────────────────────────────────────────
-let repCat=null, repIdx=0, recog=null, isRecording=false;
+let repCat=null, repIdx=0, repMode='normal', recog=null, isRecording=false;
 
 function renderRepeatSetup() {
   repCat = null;
   if (isRecording) stopMic();
   document.getElementById('repeat-active').classList.add('hidden');
+  const isMama = repMode === 'mama';
+  const visibleCats = CATS.filter(c => isMama ? c.id==='mama' : c.id!=='mama');
   document.getElementById('repeat-setup').innerHTML = `
-    <div class="section-title">듣고 따라하기</div>
-    <p class="text-muted" style="margin-bottom:12px">카테고리를 선택하세요</p>
+    <div style="display:flex;gap:10px;margin-bottom:20px">
+      <button onclick="setRepMode('normal')" style="${modeBtnStyle(!isMama,'#c0392b')}">🎤 일반</button>
+      <button onclick="setRepMode('mama')"  style="${modeBtnStyle(isMama,'#9b59b6')}">👩 엄마용 고급</button>
+    </div>
+    ${isMama ? `<div style="background:#f5eef8;border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#6c3483;line-height:1.7">🔥 고급 표현을 듣고 따라해보세요!</div>` : ''}
+    <div class="section-title">카테고리 선택</div>
     <div class="cat-grid">
-      ${CATS.map(cat=>{
+      ${visibleCats.map(cat=>{
         const cnt = PHRASES.filter(p=>p.cat===cat.id).length;
-        return `<div class="cat-card" onclick="startRepeat('${cat.id}')">
+        return `<div class="cat-card" onclick="startRepeat('${cat.id}')" style="${isMama?'grid-column:1/-1;':''}">
           <span class="cat-emoji">${cat.emoji}</span>
           <div class="cat-name">${cat.name}</div>
           <div class="cat-prog">${cnt}개 문장</div>
@@ -767,6 +786,8 @@ function renderRepeatSetup() {
       }).join('')}
     </div>`;
 }
+
+function setRepMode(mode) { repMode = mode; renderRepeatSetup(); }
 
 function startRepeat(catId) {
   repCat = catId; repIdx = 0;
