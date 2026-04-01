@@ -865,7 +865,7 @@ async function callServerAPI(situation) {
 }
 
 async function callGemini(key, prompt) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`;
   const res = await fetch(url, {
     method:'POST',
     headers:{'Content-Type':'application/json'},
@@ -876,7 +876,9 @@ async function callGemini(key, prompt) {
     throw new Error(err.error?.message || `Gemini HTTP ${res.status}`);
   }
   const data = await res.json();
-  return data.candidates[0].content.parts[0].text.trim();
+  const parts = data.candidates[0].content.parts;
+  const textPart = parts.find(p => p.text && !p.thought) || parts[0];
+  return textPart.text.trim();
 }
 
 async function callOpenAI(key, prompt) {
@@ -1413,7 +1415,7 @@ let repIsAI = false;
 
 async function runAIRepeat(sitIdx) {
   const sit = AI_SITUATIONS[sitIdx];
-  const btn = document.querySelectorAll('.ai-section .sit-btn')[sitIdx];
+  const btn = document.querySelectorAll('#screen-repeat .ai-section .sit-btn')[sitIdx];
   if (btn) { btn.textContent = '⏳ 생성 중...'; btn.disabled = true; }
   try {
     const phrases = await generateAIPhrases(sit.text);

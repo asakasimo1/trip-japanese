@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
   try {
     const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -32,7 +32,9 @@ export default async function handler(req, res) {
     }
 
     const data = await geminiRes.json();
-    const text = data.candidates[0].content.parts[0].text;
+    const parts = data.candidates[0].content.parts;
+    const textPart = parts.find(p => p.text && !p.thought) || parts[0];
+    const text = textPart.text;
 
     // JSON 배열 추출: [ 부터 마지막 ] 까지
     const start = text.indexOf('[');
