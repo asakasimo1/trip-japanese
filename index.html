@@ -350,18 +350,41 @@
 <div id="settings-modal" class="modal-backdrop hidden">
   <div class="modal-box">
     <div class="modal-title">⚙️ AI 설정</div>
-    <div class="modal-sub">
-      OpenAI API 키를 입력하면 퀴즈·따라하기에서 AI가 상황별 새 표현을 무한 생성해요.<br>
-      키는 이 기기에만 저장되며 다른 곳으로 전송되지 않아요.<br>
-      <a href="https://platform.openai.com/api-keys" target="_blank" style="color:#3498db">→ OpenAI 키 발급받기</a>
+    <div class="modal-sub">AI 제공자를 선택하고 API 키를 입력하세요.<br>키는 이 기기에만 저장됩니다.</div>
+
+    <!-- 제공자 선택 -->
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <button id="prov-gemini" class="sit-btn on" onclick="selectProvider('gemini')" style="flex:1;padding:14px 8px">
+        <div style="font-size:16px">🟢 Gemini</div>
+        <div style="font-size:11px;color:#27ae60;margin-top:2px">무료 사용 가능</div>
+      </button>
+      <button id="prov-openai" class="sit-btn" onclick="selectProvider('openai')" style="flex:1;padding:14px 8px">
+        <div style="font-size:16px">🔵 OpenAI</div>
+        <div style="font-size:11px;color:#888;margin-top:2px">유료 (gpt-4o-mini)</div>
+      </button>
     </div>
-    <input id="key-input" class="modal-input" type="password" placeholder="sk-..." />
-    <div id="key-status" style="font-size:12px;margin-top:8px;color:#aaa"></div>
-    <div class="modal-btns">
+
+    <!-- Gemini 키 입력 -->
+    <div id="gemini-key-row">
+      <div style="font-size:12px;color:#27ae60;font-weight:700;margin-bottom:6px">Google AI Studio 키</div>
+      <input id="gemini-key-input" class="modal-input" type="password" placeholder="AIza..." />
+      <a href="https://aistudio.google.com/app/apikey" target="_blank"
+         style="display:block;font-size:12px;color:#3498db;margin-top:6px">→ Google AI Studio에서 무료 키 발급</a>
+    </div>
+
+    <!-- OpenAI 키 입력 -->
+    <div id="openai-key-row" style="display:none">
+      <div style="font-size:12px;color:#2980b9;font-weight:700;margin-bottom:6px">OpenAI API 키</div>
+      <input id="openai-key-input" class="modal-input" type="password" placeholder="sk-..." />
+      <a href="https://platform.openai.com/api-keys" target="_blank"
+         style="display:block;font-size:12px;color:#3498db;margin-top:6px">→ OpenAI에서 키 발급</a>
+    </div>
+
+    <div class="modal-btns" style="margin-top:16px">
       <button class="outline-btn" style="flex:1;margin:0" onclick="hideSettingsModal()">취소</button>
       <button class="start-btn" style="margin:0;flex:1" onclick="saveApiKey()">저장</button>
     </div>
-    <button onclick="clearApiKey()" style="width:100%;background:none;border:none;color:#ccc;font-size:12px;margin-top:10px;padding:4px;cursor:pointer">저장된 키 삭제</button>
+    <button onclick="clearApiKey()" style="width:100%;background:none;border:none;color:#ccc;font-size:12px;margin-top:10px;padding:4px;cursor:pointer">저장된 키 모두 삭제</button>
   </div>
 </div>
 
@@ -741,20 +764,47 @@ function save() { localStorage.setItem(SK, JSON.stringify({ learned, quizBestNor
 load();
 
 // ── AI KEY MANAGEMENT ─────────────────────────────────────────────
-function getApiKey() { return localStorage.getItem(AI_KEY_SK)||''; }
+const GEMINI_KEY_SK  = 'japan_gemini_key';
+const OPENAI_KEY_SK  = 'japan_openai_key';
+const AI_PROVIDER_SK = 'japan_ai_provider'; // 'gemini' | 'openai'
+
+function getProvider()  { return localStorage.getItem(AI_PROVIDER_SK)||'gemini'; }
+function getGeminiKey() { return localStorage.getItem(GEMINI_KEY_SK)||''; }
+function getOpenAIKey() { return localStorage.getItem(OPENAI_KEY_SK)||''; }
+function getActiveKey() { return getProvider()==='openai' ? getOpenAIKey() : getGeminiKey(); }
+
 function showSettingsModal() {
-  const ki = document.getElementById('key-input');
-  ki.value = getApiKey();
-  document.getElementById('key-status').textContent = getApiKey() ? '✅ 키가 저장되어 있어요' : '';
+  const prov = getProvider();
+  document.getElementById('prov-gemini').classList.toggle('on', prov==='gemini');
+  document.getElementById('prov-openai').classList.toggle('on', prov==='openai');
+  document.getElementById('gemini-key-row').style.display = prov==='gemini' ? '' : 'none';
+  document.getElementById('openai-key-row').style.display = prov==='openai' ? '' : 'none';
+  document.getElementById('gemini-key-input').value = getGeminiKey();
+  document.getElementById('openai-key-input').value = getOpenAIKey();
   document.getElementById('settings-modal').classList.remove('hidden');
 }
 function hideSettingsModal() { document.getElementById('settings-modal').classList.add('hidden'); }
+function selectProvider(p) {
+  localStorage.setItem(AI_PROVIDER_SK, p);
+  document.getElementById('prov-gemini').classList.toggle('on', p==='gemini');
+  document.getElementById('prov-openai').classList.toggle('on', p==='openai');
+  document.getElementById('gemini-key-row').style.display = p==='gemini' ? '' : 'none';
+  document.getElementById('openai-key-row').style.display = p==='openai' ? '' : 'none';
+}
 function saveApiKey() {
-  const val = document.getElementById('key-input').value.trim();
-  if (val) localStorage.setItem(AI_KEY_SK, val);
+  const gk = document.getElementById('gemini-key-input').value.trim();
+  const ok = document.getElementById('openai-key-input').value.trim();
+  if (gk) localStorage.setItem(GEMINI_KEY_SK, gk);
+  if (ok) localStorage.setItem(OPENAI_KEY_SK, ok);
   hideSettingsModal();
 }
-function clearApiKey() { localStorage.removeItem(AI_KEY_SK); hideSettingsModal(); }
+function clearApiKey() {
+  localStorage.removeItem(GEMINI_KEY_SK);
+  localStorage.removeItem(OPENAI_KEY_SK);
+  hideSettingsModal();
+}
+// 기존 단일 키 호환
+function getApiKey() { return getActiveKey(); }
 
 // ── AI SITUATIONS ─────────────────────────────────────────────────
 const AI_SITUATIONS = [
@@ -778,10 +828,25 @@ let aiSitIdx = null, aiCustom = '', aiGenerating = false;
 let aiPhrases = [], aiLastSit = '';
 
 // ── AI GENERATE ───────────────────────────────────────────────────
-async function generateAIPhrases(situation) {
-  const key = getApiKey();
-  if (!key) { showSettingsModal(); return null; }
-  const prompt = `일본 여행 중 "${situation}" 상황에서 실제로 쓸 수 있는 자연스러운 일본어 회화 표현 10개를 JSON 배열로만 출력하세요.\n각 항목 형식: {"jp":"일본어문장","hira":"히라가나표기","pron":"한국어발음(띄어쓰기포함)","ko":"한국어뜻"}\n반드시 JSON 배열만 출력. 다른 텍스트 금지.`;
+const PROMPT_TEMPLATE = sit =>
+  `일본 여행 중 "${sit}" 상황에서 실제로 쓸 수 있는 자연스러운 일본어 회화 표현 10개를 JSON 배열로만 출력하세요.\n각 항목 형식: {"jp":"일본어문장","hira":"히라가나표기","pron":"한국어발음(띄어쓰기포함)","ko":"한국어뜻"}\n반드시 JSON 배열만 출력. 다른 텍스트 절대 금지.`;
+
+async function callGemini(key, prompt) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${key}`;
+  const res = await fetch(url, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.85,maxOutputTokens:1200}})
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(()=>({}));
+    throw new Error(err.error?.message || `Gemini HTTP ${res.status}`);
+  }
+  const data = await res.json();
+  return data.candidates[0].content.parts[0].text.trim();
+}
+
+async function callOpenAI(key, prompt) {
   const res = await fetch('https://api.openai.com/v1/chat/completions', {
     method:'POST',
     headers:{'Content-Type':'application/json','Authorization':`Bearer ${key}`},
@@ -789,10 +854,20 @@ async function generateAIPhrases(situation) {
   });
   if (!res.ok) {
     const err = await res.json().catch(()=>({}));
-    throw new Error(err.error?.message || `HTTP ${res.status}`);
+    throw new Error(err.error?.message || `OpenAI HTTP ${res.status}`);
   }
   const data = await res.json();
-  const text = data.choices[0].message.content.trim().replace(/```json\n?|\n?```/g,'');
+  return data.choices[0].message.content.trim();
+}
+
+async function generateAIPhrases(situation) {
+  const key = getActiveKey();
+  if (!key) { showSettingsModal(); return null; }
+  const prompt = PROMPT_TEMPLATE(situation);
+  const raw = getProvider()==='openai'
+    ? await callOpenAI(key, prompt)
+    : await callGemini(key, prompt);
+  const text = raw.replace(/```json\n?|\n?```/g,'').replace(/^[^[]*(\[)/,'$1').replace(/\][^]]*$/,']');
   const parsed = JSON.parse(text);
   return parsed.map((p,i)=>({...p, id:`ai_${Date.now()}_${i}`, cat:'ai', blank:null}));
 }
@@ -988,7 +1063,7 @@ function renderAISection() {
     <div class="ai-section">
       <div class="ai-section-title">🤖 AI 무한 문제</div>
       <div class="ai-info">상황을 선택하면 AI가 그 상황에 맞는 새 표현 10개를 생성해 퀴즈를 만들어요!</div>
-      ${!hasKey ? `<div style="background:#fff3f3;border-radius:10px;padding:10px 14px;font-size:13px;color:#c0392b;margin-bottom:14px">⚙️ 우측 상단 설정(⚙️)에서 OpenAI API 키를 먼저 입력해주세요</div>` : ''}
+      ${!hasKey ? `<div style="background:#fff3f3;border-radius:10px;padding:10px 14px;font-size:13px;color:#c0392b;margin-bottom:14px">⚙️ 우측 상단 설정(⚙️)에서 API 키를 입력해주세요 — Gemini는 무료!</div>` : ''}
       <div class="sit-grid">${sitBtns}</div>
       <input id="custom-sit-input" class="modal-input" placeholder="직접 입력 (예: 게임센터에서)" style="margin-bottom:12px" value="${aiCustom}"/>
       ${aiGenerating ? `<div class="ai-generating"><span class="spin">⚙️</span><div style="margin-top:12px;font-size:14px;color:#3498db;font-weight:700">AI가 문제를 만들고 있어요...</div></div>` :
@@ -1258,7 +1333,7 @@ function renderRepeatSetup() {
     <div class="ai-section">
       <div class="ai-section-title">🤖 AI 상황 연습</div>
       <div class="ai-info">상황을 선택하면 AI가 그 상황에 맞는 표현을 생성해 따라하기 연습을 시작해요!</div>
-      ${!getApiKey() ? `<div style="background:#fff3f3;border-radius:10px;padding:10px 14px;font-size:13px;color:#c0392b;margin-bottom:14px">⚙️ 상단 설정(⚙️)에서 OpenAI API 키를 먼저 입력해주세요</div>` : ''}
+      ${!getApiKey() ? `<div style="background:#fff3f3;border-radius:10px;padding:10px 14px;font-size:13px;color:#c0392b;margin-bottom:14px">⚙️ 상단 설정(⚙️)에서 API 키를 입력해주세요 — Gemini는 무료!</div>` : ''}
       <div class="sit-grid">${AI_SITUATIONS.map((s,i)=>`<button class="sit-btn" onclick="runAIRepeat(${i})">${s.label}</button>`).join('')}</div>
       ${aiPhrases.length && aiLastSit ? `<button class="outline-btn" style="color:#3498db;border-color:#3498db;margin-top:0" onclick="startAIRepeatNow()">▶ 마지막 AI 표현 연습 (${aiLastSit})</button>` : ''}
     </div>`;
