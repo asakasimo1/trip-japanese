@@ -307,12 +307,16 @@ const CATS = [
   { id:'transit',     name:'교통',        emoji:'🚃' },
   { id:'sightseeing', name:'관광지',      emoji:'⛩️' },
   { id:'mama',        name:'엄마용 고급', emoji:'👩' },
+  { id:'shop',  name:'쇼핑',      emoji:'🛍️' },
+  { id:'daily', name:'일상 대화', emoji:'💬' },
   // 단어 카테고리
-  { id:'w_num',   name:'숫자·돈',  emoji:'🔢', isWord:true },
-  { id:'w_food',  name:'음식 단어', emoji:'🍱', isWord:true },
-  { id:'w_place', name:'장소',     emoji:'📍', isWord:true },
-  { id:'w_adj',   name:'형용사',   emoji:'🎨', isWord:true },
-  { id:'w_time',  name:'시간',     emoji:'⏰', isWord:true },
+  { id:'w_num',     name:'숫자·돈',  emoji:'🔢', isWord:true },
+  { id:'w_food',    name:'음식 단어', emoji:'🍱', isWord:true },
+  { id:'w_place',   name:'장소',     emoji:'📍', isWord:true },
+  { id:'w_adj',     name:'형용사',   emoji:'🎨', isWord:true },
+  { id:'w_time',    name:'시간',     emoji:'⏰', isWord:true },
+  { id:'w_noun',    name:'생활 명사', emoji:'🎒', isWord:true },
+  { id:'w_weather', name:'날씨·계절', emoji:'🌤️', isWord:true },
 ];
 
 const PHRASES = [
@@ -491,6 +495,42 @@ const PHRASES = [
     ko:'거북이 등보다 나이의 경험이 낫다 (연륜이 재산 · 어르신께 칭찬할 때)',
     blank:null },
 
+  // ── 쇼핑 ─────────────────────────────────────────────────────────
+  { id:'sh1',  cat:'shop', jp:'これはいくらですか',             hira:'これはいくらですか',               pron:'코레와 이쿠라데스카',               ko:'이거 얼마예요?',                 blank:{ w:'いくら', opts:['いくら','なに','どこ','いつ'] } },
+  { id:'sh2',  cat:'shop', jp:'試着できますか',                 hira:'しちゃくできますか',               pron:'시챠쿠 데키마스카',                 ko:'입어볼 수 있나요?',              blank:null },
+  { id:'sh3',  cat:'shop', jp:'他の色はありますか',             hira:'ほかのいろはありますか',           pron:'호카노 이로와 아리마스카',           ko:'다른 색상 있어요?',              blank:{ w:'色', opts:['色','サイズ','種類','デザイン'] } },
+  { id:'sh4',  cat:'shop', jp:'大きいサイズはありますか',       hira:'おおきいサイズはありますか',       pron:'오-키이 사이즈와 아리마스카',       ko:'큰 사이즈 있어요?',              blank:{ w:'大きい', opts:['大きい','小さい','長い','短い'] } },
+  { id:'sh5',  cat:'shop', jp:'カードで払えますか',             hira:'カードではらえますか',             pron:'카-도데 하라에마스카',               ko:'카드로 낼 수 있어요?',           blank:{ w:'カード', opts:['カード','現金','電子マネー','クーポン'] } },
+  { id:'sh6',  cat:'shop', jp:'袋をください',                   hira:'ふくろをください',                 pron:'후쿠로오 쿠다사이',                 ko:'봉투 주세요',                    blank:null },
+  { id:'sh7',  cat:'shop', jp:'領収書をください',               hira:'りょうしゅうしょをください',       pron:'료-슈-쇼오 쿠다사이',               ko:'영수증 주세요',                  blank:{ w:'領収書', opts:['領収書','レシート','明細書','請求書'] } },
+  { id:'sh8',  cat:'shop', jp:'免税できますか',                 hira:'めんぜいできますか',               pron:'멘제이 데키마스카',                 ko:'면세 되나요?',                   blank:null },
+  { id:'sh9',  cat:'shop', jp:'セール中ですか',                 hira:'セールちゅうですか',               pron:'세-루 츄-데스카',                   ko:'세일 중인가요?',                 blank:null },
+  { id:'sh10', cat:'shop', jp:'ちょっと見てもいいですか',       hira:'ちょっとみてもいいですか',         pron:'쵸토 미테모 이이데스카',             ko:'잠깐 봐도 될까요?',              blank:null },
+  { id:'sh11', cat:'shop', jp:'一番人気はどれですか',           hira:'いちばんにんきはどれですか',       pron:'이치반 닌키와 도레데스카',           ko:'가장 인기 있는 게 뭔가요?',      blank:null },
+  { id:'sh12', cat:'shop', jp:'これを返品したいんですが',       hira:'これをへんぴんしたいんですが',     pron:'코레오 헨핀시타인데스가',           ko:'이거 반품하고 싶어요',           blank:{ w:'返品', opts:['返品','交換','修理','確認'] } },
+  { id:'sh13', cat:'shop', jp:'もう少し安くなりますか',         hira:'もうすこしやすくなりますか',       pron:'모- 스코시 야스쿠나리마스카',       ko:'좀 더 싸게 해주실 수 있어요?',  blank:null },
+  { id:'sh14', cat:'shop', jp:'ギフト包装をお願いします',       hira:'ギフトほうそうをおねがいします',   pron:'기후토 호-소-오 오네가이시마스',     ko:'선물 포장 부탁드려요',           blank:null },
+  { id:'sh15', cat:'shop', jp:'在庫はありますか',               hira:'ざいこはありますか',               pron:'자이코와 아리마스카',               ko:'재고 있나요?',                   blank:null },
+  { id:'sh16', cat:'shop', jp:'これを取り置きできますか',       hira:'これをとりおきできますか',         pron:'코레오 토리오키 데키마스카',         ko:'이거 맡겨놓을 수 있나요?',       blank:null },
+
+  // ── 일상 대화 ────────────────────────────────────────────────────
+  { id:'d1',  cat:'daily', jp:'これは何ですか',                 hira:'これはなんですか',                 pron:'코레와 난데스카',                   ko:'이게 뭐예요?',                   blank:{ w:'何', opts:['何','どこ','いつ','いくら'] } },
+  { id:'d2',  cat:'daily', jp:'ここはどこですか',               hira:'ここはどこですか',                 pron:'코코와 도코데스카',                 ko:'여기가 어디예요?',               blank:{ w:'どこ', opts:['どこ','なに','いつ','だれ'] } },
+  { id:'d3',  cat:'daily', jp:'いつですか',                     hira:'いつですか',                       pron:'이츠데스카',                        ko:'언제예요?',                      blank:null },
+  { id:'d4',  cat:'daily', jp:'どうやって行きますか',           hira:'どうやっていきますか',             pron:'도-얏테 이키마스카',                ko:'어떻게 가요?',                   blank:null },
+  { id:'d5',  cat:'daily', jp:'どれくらいかかりますか',         hira:'どれくらいかかりますか',           pron:'도레쿠라이 카카리마스카',           ko:'얼마나 걸려요?',                 blank:null },
+  { id:'d6',  cat:'daily', jp:'見せてください',                 hira:'みせてください',                   pron:'미세테 쿠다사이',                   ko:'보여주세요',                     blank:null },
+  { id:'d7',  cat:'daily', jp:'書いてください',                 hira:'かいてください',                   pron:'카이테 쿠다사이',                   ko:'적어주세요',                     blank:null },
+  { id:'d8',  cat:'daily', jp:'少し待ってください',             hira:'すこしまってください',             pron:'스코시 맛테 쿠다사이',               ko:'잠깐 기다려 주세요',             blank:{ w:'少し', opts:['少し','しばらく','ちょっと','もう少し'] } },
+  { id:'d9',  cat:'daily', jp:'急いでいます',                   hira:'いそいでいます',                   pron:'이소이데이마스',                    ko:'급해요',                         blank:null },
+  { id:'d10', cat:'daily', jp:'迷子になりました',               hira:'まいごになりました',               pron:'마이고니 나리마시타',               ko:'길을 잃었어요',                  blank:null },
+  { id:'d11', cat:'daily', jp:'具合が悪いです',                 hira:'ぐあいがわるいです',               pron:'구아이가 와루이데스',               ko:'몸이 안 좋아요',                 blank:null },
+  { id:'d12', cat:'daily', jp:'救急車を呼んでください',         hira:'きゅうきゅうしゃをよんでください', pron:'큐-큐-샤오 욘데 쿠다사이',          ko:'구급차 불러주세요',              blank:null },
+  { id:'d13', cat:'daily', jp:'ここに座ってもいいですか',       hira:'ここにすわってもいいですか',       pron:'코코니 스왓테모 이이데스카',         ko:'여기 앉아도 돼요?',              blank:null },
+  { id:'d14', cat:'daily', jp:'また会いましょう',               hira:'またあいましょう',                 pron:'마타 아이마쇼-',                    ko:'또 만나요',                      blank:null },
+  { id:'d15', cat:'daily', jp:'楽しかったです',                 hira:'たのしかったです',                 pron:'타노시캇타데스',                    ko:'즐거웠어요',                     blank:null },
+  { id:'d16', cat:'daily', jp:'お先に失礼します',               hira:'おさきにしつれいします',           pron:'오사키니 시츠레이시마스',           ko:'먼저 실례합니다 (먼저 자리 뜰 때)', blank:null },
+
   // ── 단어: 숫자·돈 ────────────────────────────────────────────────
   { id:'wn1',  cat:'w_num', jp:'一',    hira:'いち',     pron:'이치',   ko:'1 (일)',        blank:null },
   { id:'wn2',  cat:'w_num', jp:'二',    hira:'に',       pron:'니',     ko:'2 (이)',        blank:null },
@@ -576,6 +616,45 @@ const PHRASES = [
   { id:'wt13', cat:'w_time', jp:'今週',  hira:'こんしゅう', pron:'콘슈-',  ko:'이번 주', blank:null },
   { id:'wt14', cat:'w_time', jp:'来週',  hira:'らいしゅう', pron:'라이슈-', ko:'다음 주', blank:null },
   { id:'wt15', cat:'w_time', jp:'毎日',  hira:'まいにち',  pron:'마이니치', ko:'매일',   blank:null },
+
+  // ── 단어: 생활 명사 ──────────────────────────────────────────────
+  { id:'wno1',  cat:'w_noun', jp:'財布',         hira:'さいふ',           pron:'사이후',          ko:'지갑',          blank:null },
+  { id:'wno2',  cat:'w_noun', jp:'携帯',         hira:'けいたい',         pron:'케이타이',        ko:'핸드폰',        blank:null },
+  { id:'wno3',  cat:'w_noun', jp:'カバン',       hira:'カバン',           pron:'카방',            ko:'가방',          blank:null },
+  { id:'wno4',  cat:'w_noun', jp:'傘',           hira:'かさ',             pron:'카사',            ko:'우산',          blank:null },
+  { id:'wno5',  cat:'w_noun', jp:'眼鏡',         hira:'めがね',           pron:'메가네',          ko:'안경',          blank:null },
+  { id:'wno6',  cat:'w_noun', jp:'時計',         hira:'とけい',           pron:'토케이',          ko:'시계',          blank:null },
+  { id:'wno7',  cat:'w_noun', jp:'パスポート',   hira:'パスポート',       pron:'파스포-토',       ko:'여권',          blank:null },
+  { id:'wno8',  cat:'w_noun', jp:'充電器',       hira:'じゅうでんき',     pron:'쥬-덴키',         ko:'충전기',        blank:null },
+  { id:'wno9',  cat:'w_noun', jp:'薬',           hira:'くすり',           pron:'쿠스리',          ko:'약',            blank:null },
+  { id:'wno10', cat:'w_noun', jp:'絆創膏',       hira:'ばんそうこう',     pron:'반소-코-',        ko:'반창고',        blank:null },
+  { id:'wno11', cat:'w_noun', jp:'切符',         hira:'きっぷ',           pron:'킷푸',            ko:'표 / 승차권',   blank:null },
+  { id:'wno12', cat:'w_noun', jp:'お土産',       hira:'おみやげ',         pron:'오미야게',        ko:'기념품 / 선물', blank:null },
+  { id:'wno13', cat:'w_noun', jp:'クレジットカード', hira:'クレジットカード', pron:'쿠레짓토 카-도', ko:'신용카드',     blank:null },
+  { id:'wno14', cat:'w_noun', jp:'レシート',     hira:'レシート',         pron:'레시-토',         ko:'영수증',        blank:null },
+  { id:'wno15', cat:'w_noun', jp:'ハンカチ',     hira:'ハンカチ',         pron:'한카치',          ko:'손수건',        blank:null },
+  { id:'wno16', cat:'w_noun', jp:'地図',         hira:'ちず',             pron:'치즈',            ko:'지도',          blank:null },
+  { id:'wno17', cat:'w_noun', jp:'鍵',           hira:'かぎ',             pron:'카기',            ko:'열쇠',          blank:null },
+  { id:'wno18', cat:'w_noun', jp:'カメラ',       hira:'カメラ',           pron:'카메라',          ko:'카메라',        blank:null },
+  { id:'wno19', cat:'w_noun', jp:'ゴミ箱',       hira:'ゴミばこ',         pron:'고미바코',        ko:'쓰레기통',      blank:null },
+  { id:'wno20', cat:'w_noun', jp:'エレベーター', hira:'エレベーター',     pron:'에레베-타-',      ko:'엘리베이터',    blank:null },
+
+  // ── 단어: 날씨·계절 ─────────────────────────────────────────────
+  { id:'ww1',  cat:'w_weather', jp:'晴れ',     hira:'はれ',         pron:'하레',        ko:'맑음',            blank:null },
+  { id:'ww2',  cat:'w_weather', jp:'曇り',     hira:'くもり',       pron:'쿠모리',      ko:'흐림',            blank:null },
+  { id:'ww3',  cat:'w_weather', jp:'雨',       hira:'あめ',         pron:'아메',        ko:'비',              blank:null },
+  { id:'ww4',  cat:'w_weather', jp:'雪',       hira:'ゆき',         pron:'유키',        ko:'눈',              blank:null },
+  { id:'ww5',  cat:'w_weather', jp:'風',       hira:'かぜ',         pron:'카제',        ko:'바람',            blank:null },
+  { id:'ww6',  cat:'w_weather', jp:'台風',     hira:'たいふう',     pron:'타이후-',     ko:'태풍',            blank:null },
+  { id:'ww7',  cat:'w_weather', jp:'暖かい',   hira:'あたたかい',   pron:'아타타카이',  ko:'따뜻한',          blank:null },
+  { id:'ww8',  cat:'w_weather', jp:'涼しい',   hira:'すずしい',     pron:'스즈시이',    ko:'시원한',          blank:null },
+  { id:'ww9',  cat:'w_weather', jp:'蒸し暑い', hira:'むしあつい',   pron:'무시아츠이',  ko:'습하고 더운',     blank:null },
+  { id:'ww10', cat:'w_weather', jp:'天気予報', hira:'てんきよほう', pron:'텐키요호-',   ko:'날씨예보',        blank:null },
+  { id:'ww11', cat:'w_weather', jp:'気温',     hira:'きおん',       pron:'키온',        ko:'기온',            blank:null },
+  { id:'ww12', cat:'w_weather', jp:'春',       hira:'はる',         pron:'하루',        ko:'봄',              blank:null },
+  { id:'ww13', cat:'w_weather', jp:'夏',       hira:'なつ',         pron:'나츠',        ko:'여름',            blank:null },
+  { id:'ww14', cat:'w_weather', jp:'秋',       hira:'あき',         pron:'아키',        ko:'가을',            blank:null },
+  { id:'ww15', cat:'w_weather', jp:'冬',       hira:'ふゆ',         pron:'후유',        ko:'겨울',            blank:null },
 ];
 
 // ── STORAGE ───────────────────────────────────────────────────────
@@ -796,7 +875,13 @@ function startQuiz() {
 function renderQ() {
   if (qIdx >= qList.length) { showResult(); return; }
   const { p, type } = qList[qIdx];
-  const others = PHRASES.filter(x=>x.id!==p.id).sort(()=>Math.random()-0.5).slice(0,3);
+  // 같은 카테고리에서 오답 우선 선택 → 퀴즈 난이도 상승
+  let sameCat = PHRASES.filter(x=>x.id!==p.id && x.cat===p.cat).sort(()=>Math.random()-0.5);
+  let others = sameCat.slice(0,3);
+  if (others.length < 3) {
+    const extra = PHRASES.filter(x=>x.id!==p.id && x.cat!==p.cat).sort(()=>Math.random()-0.5).slice(0, 3-others.length);
+    others = [...others, ...extra];
+  }
   let html = '';
 
   if (type === 0) {
@@ -991,11 +1076,15 @@ function renderRepeatCard() {
     <div class="counter">${repIdx+1} / ${ps.length}</div>
 
     <div class="repeat-card">
-      <div class="step-tag">STEP 1 — 듣기</div>
+      <div class="step-tag">STEP 1 — 듣고 읽기</div>
       <div class="phrase-jp">${p.jp}</div>
-      <div class="phrase-hira" style="margin-top:8px;font-size:14px;color:#888">${p.pron}</div>
-      <div style="font-size:18px;font-weight:700;margin-top:10px">${p.ko}</div>
-      <button class="tts-btn" style="margin:18px auto 0;display:inline-flex" onclick="speak('${esc(p.jp)}')">🔊 듣기</button>
+      ${p.hira!==p.jp?`<div style="font-size:15px;color:#aaa;margin-top:6px">${p.hira}</div>`:''}
+      <div style="display:inline-block;background:#fff3f3;color:#c0392b;font-size:15px;font-weight:700;padding:6px 18px;border-radius:20px;margin:10px 0 6px">📣 ${p.pron}</div>
+      <div style="font-size:20px;font-weight:700;color:#2d2d2d;margin-top:4px">${p.ko}</div>
+      <div style="display:flex;gap:8px;margin:18px auto 0;justify-content:center">
+        <button class="tts-btn" onclick="speak('${esc(p.jp)}')">🔊 듣기</button>
+        <button class="tts-btn" style="background:#e67e22" onclick="speakSlow('${esc(p.jp)}')">🐢 천천히</button>
+      </div>
     </div>
 
     <div class="repeat-card">
@@ -1028,6 +1117,12 @@ function stepRepeat(d) {
   renderRepeatCard();
 }
 
+function speakSlow(text) {
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ja-JP'; u.rate = 0.55;
+  speechSynthesis.speak(u);
+}
 function toggleMic(target) { isRecording ? stopMic() : startMic(target); }
 
 function startMic(target) {
@@ -1054,11 +1149,24 @@ function startMic(target) {
     box.textContent = final || interim || '...';
     if (final) {
       const sim = similarity(final.replace(/\s/g,''), target.replace(/\s/g,'').replace(/〜/g,''));
-      let cls, msg;
-      if (sim>0.7)      { cls='good';  msg=`🎉 잘했어요! "${final}"`; }
-      else if (sim>0.4) { cls='retry'; msg=`👍 거의 맞아요! 다시! 정답: ${target}`; }
-      else              { cls='retry'; msg=`😊 연습이 필요해요! 정답: ${target}`; }
-      res.innerHTML = `<div class="recog-result ${cls}">${msg}</div>`;
+      const score = Math.round(sim * 100);
+      let cls, msg, barColor;
+      if      (score>=90) { cls='good';  msg='🏆 완벽해요!';              barColor='#27ae60'; }
+      else if (score>=75) { cls='good';  msg='🎉 아주 잘했어요!';          barColor='#2ecc71'; }
+      else if (score>=60) { cls='good';  msg='👍 잘했어요!';               barColor='#f39c12'; }
+      else if (score>=45) { cls='retry'; msg='😊 거의 맞아요, 한 번 더!';  barColor='#e67e22'; }
+      else if (score>=25) { cls='retry'; msg='💪 더 연습해봐요!';           barColor='#e74c3c'; }
+      else                { cls='retry'; msg='🎤 다시 듣고 따라해봐요!';   barColor='#c0392b'; }
+      res.innerHTML = `<div class="recog-result ${cls}" style="padding:14px 16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <span style="font-size:15px;font-weight:700">${msg}</span>
+          <span style="font-size:28px;font-weight:800;color:${barColor};line-height:1">${score}<span style="font-size:13px;font-weight:600">점</span></span>
+        </div>
+        <div style="background:#e0e0e0;border-radius:8px;height:12px;overflow:hidden;margin-bottom:${score<60?'10px':'0'}">
+          <div style="width:${score}%;height:100%;background:${barColor};border-radius:8px;transition:width 0.6s ease"></div>
+        </div>
+        ${score<60?`<div style="font-size:12px;color:#888;margin-top:2px">정답: ${target}</div>`:''}
+      </div>`;
     }
   };
   recog.onerror = e => {
@@ -1078,12 +1186,21 @@ function stopMic() {
   if (lbl) lbl.textContent = '버튼을 누르고 말해보세요';
 }
 
+function levenshtein(a, b) {
+  const m=a.length, n=b.length;
+  const dp=[];
+  for (let i=0;i<=m;i++) { dp[i]=[]; for(let j=0;j<=n;j++) dp[i][j]=i===0?j:j===0?i:0; }
+  for (let i=1;i<=m;i++)
+    for (let j=1;j<=n;j++)
+      dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+  return dp[m][n];
+}
 function similarity(a, b) {
   if (!a||!b) return 0;
-  let m=0;
-  const [short,long] = a.length<b.length ? [a,b] : [b,a];
-  for (const c of short) if (long.includes(c)) m++;
-  return m / long.length;
+  a=a.replace(/\s/g,''); b=b.replace(/\s/g,'');
+  if (a===b) return 1;
+  const dist=levenshtein(a,b);
+  return Math.max(0, 1-dist/Math.max(a.length,b.length));
 }
 
 // ── PROGRESS ─────────────────────────────────────────────────────
