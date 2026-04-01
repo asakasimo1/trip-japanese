@@ -1195,7 +1195,7 @@ function renderQ() {
   if (type === 0) {
     // 객관식: 한국어 → 일본어 고르기
     const opts = shuffle([p,...others]).map(o=>
-      `<div class="opt-row">
+      `<div class="opt-row" data-ko="${esc(o.ko)}">
         <button class="opt" data-id="${o.id}" onclick="answerMC(this.closest('.opt-row'),'${p.id}')">${o.jp}</button>
         <button class="spk-btn" onclick="event.stopPropagation();speak('${esc(o.jp)}')">🔊</button>
       </div>`).join('');
@@ -1262,6 +1262,15 @@ function answerMC(row, correctId) {
     if (r.querySelector('.opt').dataset.id === correctId) {
       r.classList.add('correct'); r.querySelector('.opt').classList.add('correct');
     }
+  });
+  // 정답 공개 후 모든 보기에 한국어 뜻 표시
+  rows.forEach(r => {
+    const ko = r.dataset.ko;
+    if (!ko) return;
+    const tag = document.createElement('div');
+    tag.style.cssText = 'font-size:12px;color:#888;padding:0 16px 9px;line-height:1.4';
+    tag.textContent = ko;
+    r.appendChild(tag);
   });
   if (isOK) { qScore++; learned[correctId] = true; save(); }
   showFB(isOK, correctId);
@@ -1403,7 +1412,6 @@ function startRepeat(catId) {
 let repIsAI = false;
 
 async function runAIRepeat(sitIdx) {
-  if (!getApiKey()) { showSettingsModal(); return; }
   const sit = AI_SITUATIONS[sitIdx];
   const btn = document.querySelectorAll('.ai-section .sit-btn')[sitIdx];
   if (btn) { btn.textContent = '⏳ 생성 중...'; btn.disabled = true; }
