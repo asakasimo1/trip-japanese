@@ -304,7 +304,7 @@
 <div class="header" style="position:relative">
   <div class="header-title">🇯🇵 일본 여행 일본어</div>
   <div class="header-sub">아빠와 딸이 함께 배우는 여행 회화</div>
-  <button class="settings-btn" onclick="showSettingsModal()">⚙️</button>
+  <button id="settings-toggle-btn" class="settings-btn" onclick="showSettingsModal()">⚙️</button>
 </div>
 
 <nav class="nav">
@@ -838,6 +838,13 @@ let aiPhrases = [], aiLastSit = '';
 // ── AI GENERATE ───────────────────────────────────────────────────
 // Vercel 배포 여부 감지 (github.io가 아니면 Vercel 또는 로컬로 판단)
 const IS_SERVER_MODE = !window.location.hostname.includes('github.io');
+// Vercel 모드에서는 API 키 설정 버튼 숨김
+if (IS_SERVER_MODE) {
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('settings-toggle-btn');
+    if (btn) btn.style.display = 'none';
+  });
+}
 
 const PROMPT_TEMPLATE = sit =>
   `일본 여행 중 "${sit}" 상황에서 실제로 쓸 수 있는 자연스러운 일본어 회화 표현 10개를 JSON 배열로만 출력하세요.\n각 항목 형식: {"jp":"일본어문장","hira":"히라가나표기","pron":"한국어발음(띄어쓰기포함)","ko":"한국어뜻"}\n반드시 JSON 배열만 출력. 다른 텍스트 절대 금지.`;
@@ -858,7 +865,7 @@ async function callServerAPI(situation) {
 }
 
 async function callGemini(key, prompt) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
   const res = await fetch(url, {
     method:'POST',
     headers:{'Content-Type':'application/json'},
