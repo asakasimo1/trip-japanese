@@ -1137,7 +1137,7 @@ async function runAIQuiz() {
     startAIQuizNow();
   } catch(e) {
     aiGenerating = false; renderQuizSetup();
-    alert(`오류가 발생했어요:\n${e.message}\nAPI 키를 확인해주세요.`);
+    alert(`오류가 발생했어요:\n${e.message}\n잠시 후 다시 시도해주세요.`);
   }
   aiGenerating = false;
 }
