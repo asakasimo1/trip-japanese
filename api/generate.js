@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return res.status(500).json({ error: 'GEMINI_API_KEY not configured on server' });
 
-  const prompt = `일본 여행 중 "${situation}" 상황에서 실제로 쓸 수 있는 자연스러운 일본어 회화 표현 10개를 JSON 배열로만 출력하세요.\n각 항목 형식: {"jp":"일본어문장","hira":"히라가나표기","pron":"한국어발음(띄어쓰기포함)","ko":"한국어뜻"}\n반드시 JSON 배열만 출력. 다른 텍스트 절대 금지.`;
+  const prompt = `일본 여행 중 "${situation}" 상황에서 쓸 수 있는 일본어 회화 표현 8개를 JSON 배열로만 출력하세요.\n형식: [{"jp":"일본어","hira":"히라가나","pron":"한국어발음","ko":"한국어뜻"}]\nJSON만 출력. 다른 텍스트 금지.`;
 
   try {
     const geminiRes = await fetch(
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.85, maxOutputTokens: 1200 }
+          generationConfig: { temperature: 0.85, maxOutputTokens: 2048 }
         })
       }
     );
@@ -34,13 +34,21 @@ export default async function handler(req, res) {
     const data = await geminiRes.json();
     const text = data.candidates[0].content.parts[0].text;
 
-    // JSON 배열 부분만 추출 (앞뒤 텍스트/마크다운 코드블록 제거)
+    // JSON 배열 추출: [ 부터 마지막 ] 까지
     const start = text.indexOf('[');
-    const end = text.lastIndexOf(']');
-    if (start === -1 || end === -1 || end <= start) {
-      return res.status(500).json({ error: 'JSON 배열을 찾을 수 없습니다: ' + text.slice(0, 100) });
+    let end = text.lastIndexOf(']');
+    if (start === -1) {
+      return res.status(500).json({ error: 'JSON 배열 없음: ' + text.slice(0, 150) });
     }
-    const raw = text.slice(start, end + 1);
+    // ] 가 없으면 (응답 잘림) → 잘린 항목 제거 후 배열 닫기
+    let raw;
+    if (end <= start) {
+      const partial = text.slice(start);
+      const lastComplete = partial.lastIndexOf('},');
+      raw = lastComplete > 0 ? partial.slice(0, lastComplete + 1) + ']' : partial + ']';
+    } else {
+      raw = text.slice(start, end + 1);
+    }
 
     const phrases = JSON.parse(raw);
     return res.status(200).json({ phrases });
