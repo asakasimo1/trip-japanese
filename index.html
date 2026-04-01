@@ -350,7 +350,10 @@
 <div id="settings-modal" class="modal-backdrop hidden">
   <div class="modal-box">
     <div class="modal-title">⚙️ AI 설정</div>
-    <div class="modal-sub">AI 제공자를 선택하고 API 키를 입력하세요.<br>키는 이 기기에만 저장됩니다.</div>
+    <div id="modal-server-notice" style="background:#e8f5e9;border-radius:10px;padding:10px 14px;font-size:13px;color:#2e7d32;margin-bottom:14px;display:none">
+      ✅ <b>Vercel 배포 버전</b> — 서버에서 자동으로 API를 처리해요. 키 입력 없이도 AI 기능이 동작합니다.
+    </div>
+    <div class="modal-sub">AI 제공자를 선택하고 API 키를 입력하세요.<br>키는 이 기기에만 저장됩니다. (GitHub Pages 전용)</div>
 
     <!-- 제공자 선택 -->
     <div style="display:flex;gap:8px;margin-bottom:16px">
@@ -781,6 +784,11 @@ function showSettingsModal() {
   document.getElementById('openai-key-row').style.display = prov==='openai' ? '' : 'none';
   document.getElementById('gemini-key-input').value = getGeminiKey();
   document.getElementById('openai-key-input').value = getOpenAIKey();
+  // Vercel 모드면 서버 안내 표시, 키 입력 영역 흐리게
+  const notice = document.getElementById('modal-server-notice');
+  const keySection = document.getElementById('key-section');
+  if (IS_SERVER_MODE) { notice.style.display=''; if(keySection) keySection.style.opacity='0.4'; }
+  else { notice.style.display='none'; if(keySection) keySection.style.opacity=''; }
   document.getElementById('settings-modal').classList.remove('hidden');
 }
 function hideSettingsModal() { document.getElementById('settings-modal').classList.add('hidden'); }
@@ -828,8 +836,26 @@ let aiSitIdx = null, aiCustom = '', aiGenerating = false;
 let aiPhrases = [], aiLastSit = '';
 
 // ── AI GENERATE ───────────────────────────────────────────────────
+// Vercel 배포 여부 감지 (github.io가 아니면 Vercel 또는 로컬로 판단)
+const IS_SERVER_MODE = !window.location.hostname.includes('github.io');
+
 const PROMPT_TEMPLATE = sit =>
   `일본 여행 중 "${sit}" 상황에서 실제로 쓸 수 있는 자연스러운 일본어 회화 표현 10개를 JSON 배열로만 출력하세요.\n각 항목 형식: {"jp":"일본어문장","hira":"히라가나표기","pron":"한국어발음(띄어쓰기포함)","ko":"한국어뜻"}\n반드시 JSON 배열만 출력. 다른 텍스트 절대 금지.`;
+
+async function callServerAPI(situation) {
+  const res = await fetch('/api/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ situation }),
+    signal: AbortSignal.timeout(20000)
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || `서버 오류 ${res.status}`);
+  }
+  const data = await res.json();
+  return data.phrases;
+}
 
 async function callGemini(key, prompt) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${key}`;
@@ -861,6 +887,12 @@ async function callOpenAI(key, prompt) {
 }
 
 async function generateAIPhrases(situation) {
+  // Vercel/로컬: 서버 API 사용 (키 불필요)
+  if (IS_SERVER_MODE) {
+    const phrases = await callServerAPI(situation);
+    return phrases.map((p,i) => ({...p, id:`ai_${Date.now()}_${i}`, cat:'ai', blank:null}));
+  }
+  // GitHub Pages: localStorage 키로 직접 호출
   const key = getActiveKey();
   if (!key) { showSettingsModal(); return null; }
   const prompt = PROMPT_TEMPLATE(situation);
@@ -869,7 +901,7 @@ async function generateAIPhrases(situation) {
     : await callGemini(key, prompt);
   const text = raw.replace(/```json\n?|\n?```/g,'').replace(/^[^[]*(\[)/,'$1').replace(/\][^]]*$/,']');
   const parsed = JSON.parse(text);
-  return parsed.map((p,i)=>({...p, id:`ai_${Date.now()}_${i}`, cat:'ai', blank:null}));
+  return parsed.map((p,i) => ({...p, id:`ai_${Date.now()}_${i}`, cat:'ai', blank:null}));
 }
 
 // ── TABS ─────────────────────────────────────────────────────────
@@ -1063,7 +1095,10 @@ function renderAISection() {
     <div class="ai-section">
       <div class="ai-section-title">🤖 AI 무한 문제</div>
       <div class="ai-info">상황을 선택하면 AI가 그 상황에 맞는 새 표현 10개를 생성해 퀴즈를 만들어요!</div>
-      ${!hasKey ? `<div style="background:#fff3f3;border-radius:10px;padding:10px 14px;font-size:13px;color:#c0392b;margin-bottom:14px">⚙️ 우측 상단 설정(⚙️)에서 API 키를 입력해주세요 — Gemini는 무료!</div>` : ''}
+      ${IS_SERVER_MODE
+        ? `<div style="background:#e8f5e9;border-radius:10px;padding:8px 14px;font-size:13px;color:#2e7d32;margin-bottom:14px">✅ 서버에서 자동 처리 — 키 입력 불필요!</div>`
+        : (!hasKey ? `<div style="background:#fff3f3;border-radius:10px;padding:10px 14px;font-size:13px;color:#c0392b;margin-bottom:14px">⚙️ 상단 설정(⚙️)에서 API 키를 입력해주세요 — Gemini는 무료!</div>` : '')
+      }
       <div class="sit-grid">${sitBtns}</div>
       <input id="custom-sit-input" class="modal-input" placeholder="직접 입력 (예: 게임센터에서)" style="margin-bottom:12px" value="${aiCustom}"/>
       ${aiGenerating ? `<div class="ai-generating"><span class="spin">⚙️</span><div style="margin-top:12px;font-size:14px;color:#3498db;font-weight:700">AI가 문제를 만들고 있어요...</div></div>` :
@@ -1333,7 +1368,10 @@ function renderRepeatSetup() {
     <div class="ai-section">
       <div class="ai-section-title">🤖 AI 상황 연습</div>
       <div class="ai-info">상황을 선택하면 AI가 그 상황에 맞는 표현을 생성해 따라하기 연습을 시작해요!</div>
-      ${!getApiKey() ? `<div style="background:#fff3f3;border-radius:10px;padding:10px 14px;font-size:13px;color:#c0392b;margin-bottom:14px">⚙️ 상단 설정(⚙️)에서 API 키를 입력해주세요 — Gemini는 무료!</div>` : ''}
+      ${IS_SERVER_MODE
+        ? `<div style="background:#e8f5e9;border-radius:10px;padding:8px 14px;font-size:13px;color:#2e7d32;margin-bottom:14px">✅ 서버에서 자동 처리 — 키 입력 불필요!</div>`
+        : (!getApiKey() ? `<div style="background:#fff3f3;border-radius:10px;padding:10px 14px;font-size:13px;color:#c0392b;margin-bottom:14px">⚙️ 상단 설정(⚙️)에서 API 키를 입력해주세요 — Gemini는 무료!</div>` : '')
+      }
       <div class="sit-grid">${AI_SITUATIONS.map((s,i)=>`<button class="sit-btn" onclick="runAIRepeat(${i})">${s.label}</button>`).join('')}</div>
       ${aiPhrases.length && aiLastSit ? `<button class="outline-btn" style="color:#3498db;border-color:#3498db;margin-top:0" onclick="startAIRepeatNow()">▶ 마지막 AI 표현 연습 (${aiLastSit})</button>` : ''}
     </div>`;
