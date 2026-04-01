@@ -32,10 +32,15 @@ export default async function handler(req, res) {
     }
 
     const data = await geminiRes.json();
-    const raw = data.candidates[0].content.parts[0].text.trim()
-      .replace(/```json\n?|\n?```/g, '')
-      .replace(/^[^[]*(\[)/, '$1')
-      .replace(/\][^\]]*$/, ']');
+    const text = data.candidates[0].content.parts[0].text;
+
+    // JSON 배열 부분만 추출 (앞뒤 텍스트/마크다운 코드블록 제거)
+    const start = text.indexOf('[');
+    const end = text.lastIndexOf(']');
+    if (start === -1 || end === -1 || end <= start) {
+      return res.status(500).json({ error: 'JSON 배열을 찾을 수 없습니다: ' + text.slice(0, 100) });
+    }
+    const raw = text.slice(start, end + 1);
 
     const phrases = JSON.parse(raw);
     return res.status(200).json({ phrases });
