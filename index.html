@@ -1013,16 +1013,17 @@ async function generateAIPhrases(situation) {
 }
 
 // ── TABS ─────────────────────────────────────────────────────────
-function showTab(id) {
+function showTab(id, _noHistory = false) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
   document.getElementById('screen-'+id).classList.add('active');
   const idx = ['learn','quiz','repeat','progress'].indexOf(id);
   document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+  if (id==='learn')    renderLearnCats();
   if (id==='progress') renderProgress();
   if (id==='quiz')     renderQuizSetup();
   if (id==='repeat')   renderRepeatSetup();
-  history.replaceState({ page: 'app' }, '');
+  if (!_noHistory) history.replaceState({ page: 'tab', tab: id }, '');
 }
 
 // ── TTS ──────────────────────────────────────────────────────────
@@ -1087,11 +1088,12 @@ function renderLearnCats() {
 
 function setLearnMode(mode) { learnMode = mode; renderLearnCats(); }
 
-function openLearnCat(catId) {
+function openLearnCat(catId, _noHistory = false) {
   learnCat = catId; learnIdx = 0;
   document.getElementById('learn-cats').classList.add('hidden');
   document.getElementById('learn-cards').classList.remove('hidden');
   renderLearnCard();
+  if (!_noHistory) history.pushState({ page: 'learn-cards', cat: catId }, '');
 }
 
 function renderLearnCard() {
@@ -1116,7 +1118,7 @@ function renderLearnCard() {
       <div class="phrase-ko" style="font-size:${p.cat==='mama'?'15px':'20px'}">${p.ko}</div>
   `;
   document.getElementById('learn-cards').innerHTML = `
-    <button class="back-btn" onclick="renderLearnCats()">← 목록</button>
+    <button class="back-btn" onclick="history.back()">← 목록</button>
     <div class="counter">${learnIdx+1} / ${ps.length}</div>
     <div class="phrase-card">
       ${cardBody}
@@ -1254,6 +1256,7 @@ function startAIQuizNow() {
   document.getElementById('quiz-setup').classList.add('hidden');
   document.getElementById('quiz-result').classList.add('hidden');
   document.getElementById('quiz-active').classList.remove('hidden');
+  history.pushState({ page: 'quiz-active' }, '');
   renderQ();
 }
 
@@ -1289,6 +1292,7 @@ function startQuiz() {
   document.getElementById('quiz-setup').classList.add('hidden');
   document.getElementById('quiz-result').classList.add('hidden');
   document.getElementById('quiz-active').classList.remove('hidden');
+  history.pushState({ page: 'quiz-active' }, '');
   renderQ();
 }
 
@@ -1426,6 +1430,7 @@ function showFB(ok, correctId) {
 function nextQ() { qIdx++; renderQ(); }
 
 function showResult() {
+  history.replaceState({ page: 'quiz-result' }, '');
   document.getElementById('quiz-active').classList.add('hidden');
   const res = document.getElementById('quiz-result');
   res.classList.remove('hidden');
@@ -1454,12 +1459,13 @@ function showResult() {
     ` : `
       <button class="start-btn" style="background:${btnColor}" onclick="startQuiz()">다시 도전! ${isMama?'🔥':'🎯'}</button>
     `}
-    <button class="outline-btn" style="color:${btnColor};border-color:${btnColor}" onclick="renderQuizSetup()">모드 변경</button>`;
+    <button class="outline-btn" style="color:${btnColor};border-color:${btnColor}" onclick="goToQuizSetup()">모드 변경</button>`;
 }
 
 const shuffle = arr => [...arr].sort(()=>Math.random()-0.5);
 
 async function runAIQuizFromResult() {
+  history.replaceState({ page: 'tab', tab: 'quiz' }, '');
   document.getElementById('quiz-result').classList.add('hidden');
   document.getElementById('quiz-setup').classList.remove('hidden');
   renderQuizSetup();
@@ -1528,6 +1534,7 @@ function startRepeat(catId) {
   repCat = catId; repIdx = 0; repIsAI = false;
   document.getElementById('repeat-setup').innerHTML = '';
   renderRepeatCard();
+  history.pushState({ page: 'repeat-active' }, '');
 }
 
 let repIsAI = false;
@@ -1552,6 +1559,7 @@ function startAIRepeatNow() {
   repIsAI = true; repIdx = 0;
   document.getElementById('repeat-setup').innerHTML = '';
   renderRepeatCard();
+  history.pushState({ page: 'repeat-active' }, '');
 }
 
 function renderRepeatCard() {
@@ -1563,7 +1571,7 @@ function renderRepeatCard() {
   const act = document.getElementById('repeat-active');
   act.classList.remove('hidden');
   act.innerHTML = `
-    <button class="back-btn" onclick="renderRepeatSetup()">← 목록</button>
+    <button class="back-btn" onclick="history.back()">← 목록</button>
     ${repIsAI ? `<div style="display:inline-block;background:#eaf4fd;color:#2980b9;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;margin-left:8px">🤖 AI — ${aiLastSit}</div>` : ''}
     <div class="counter">${repIdx+1} / ${ps.length}</div>
 
@@ -1734,17 +1742,32 @@ function showSplash() {
 
 function startApp() {
   document.getElementById('screen-splash').classList.add('hidden');
-  history.pushState({ page: 'app' }, '');
+  history.pushState({ page: 'tab', tab: 'learn' }, '');
 }
 
+function goToQuizSetup() {
+  history.replaceState({ page: 'tab', tab: 'quiz' }, '');
+  renderQuizSetup();
+}
+
+// ── 단계별 Back 네비게이션 ─────────────────────────────────────────
+// 스택 예시: [splash] → [splash, tab:learn] → [splash, tab:learn, learn-cards]
+// back: learn-cards → tab:learn → splash → 앱 종료
 window.addEventListener('popstate', (e) => {
-  if (e.state && e.state.page === 'app') {
-    // app → splash: splash 상태로 돌아왔을 때 (이 케이스는 아래서 처리)
+  const state = e.state || {};
+  if (!state.page || state.page === 'splash') {
+    // splash state → 메인 화면 표시
     showSplash();
-  } else if (!e.state || e.state.page === 'splash') {
-    // splash state = 메인 화면 표시
-    showSplash();
+  } else if (state.page === 'tab') {
+    // 탭 state → 해당 탭 표시 (history 수정 없이)
+    showTab(state.tab, true);
+    document.getElementById('screen-splash').classList.add('hidden');
+  } else if (state.page === 'learn-cards') {
+    // 학습 카드 state로 포워드 이동 시 복원 (앞으로 가기 등)
+    openLearnCat(state.cat, true);
   }
+  // quiz-active, quiz-result, repeat-active:
+  // 이 state에서 back → 이전 tab state → 위에서 처리됨
 });
 
 // 초기 state 설정
