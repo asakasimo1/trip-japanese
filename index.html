@@ -1298,7 +1298,12 @@ async function runAIQuiz() {
   aiGenerating = true; renderQuizSetup();
   try {
     const phrases = await generateAIPhrases(sit);
-    if (!phrases || phrases.length < 4) throw new Error('표현 생성 실패');
+    // generateAIPhrases()는 API 키가 아직 설정 안 됐으면(깃허브 페이지 첫
+    // 방문 등) 설정 팝업만 띄우고 null을 반환한다 — 이걸 "생성 실패"로
+    // 오판해서 설정 팝업 위에 에러 알림까지 겹쳐 뜨던 버그 수정
+    // (2026-10-04 사용자 리포트). null이면 조용히 종료.
+    if (phrases === null) { aiGenerating = false; renderQuizSetup(); return; }
+    if (!phrases.length || phrases.length < 4) throw new Error('표현 생성 실패');
     aiPhrases = phrases;
     aiLastSit = sitLabel;
     startAIQuizNow();
@@ -1584,7 +1589,10 @@ async function runAIRepeat(sitIdx) {
   if (btn) { btn.textContent = '⏳ 생성 중...'; btn.disabled = true; }
   try {
     const phrases = await generateAIPhrases(sit.text);
-    if (!phrases || phrases.length < 2) throw new Error('생성 실패');
+    // generateAIPhrases()는 API 키가 아직 설정 안 됐으면 설정 팝업만
+    // 띄우고 null을 반환한다 — "생성 실패" 오판 방지(위 runAIQuiz와 동일).
+    if (phrases === null) { renderRepeatSetup(); return; }
+    if (!phrases.length || phrases.length < 2) throw new Error('생성 실패');
     aiPhrases = phrases; aiLastSit = sit.label;
     startAIRepeatNow();
   } catch(e) {
