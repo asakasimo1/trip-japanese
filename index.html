@@ -224,6 +224,27 @@
     .recog-result.retry { background: #fff8e1; color: #e65100; }
     .recog-result.err   { background: #f5f5f5; color: #999; }
 
+    /* 2026-10-04 요청 — 따라하기(마이크) 화면이 한 화면에 안 들어와서 다음
+       버튼까지 스크롤해야 하던 문제. 이 화면(#repeat-active)에서만 쓰는
+       카드·버튼 크기를 줄여서 STEP1+STEP2+다음버튼까지 스크롤 없이 한
+       화면에 들어오도록 함(다른 화면의 .repeat-card 밖 공용 클래스는
+       건드리지 않음 — .phrase-jp 등은 학습 카드와 공유하는 클래스라 여기선
+       #repeat-active 안에서만 덮어씀). */
+    #screen-repeat { padding-bottom: 16px; }
+    #repeat-active .repeat-card { padding: 14px 16px 12px; margin-bottom: 8px; }
+    #repeat-active .step-tag { margin-bottom: 8px; }
+    #repeat-active .phrase-jp { font-size: 21px; margin-bottom: 4px; line-height: 1.3; }
+    #repeat-active .mic-wrap { margin: 8px 0 4px; }
+    #repeat-active .mic-btn { width: 60px; height: 60px; font-size: 24px; }
+    #repeat-active .mic-label { font-size: 11px; }
+    #repeat-active .recog-box { min-height: 30px; padding: 8px 14px; margin-top: 8px; font-size: 13px; }
+    #repeat-active .recog-result { margin-top: 6px; padding: 8px 12px; font-size: 12px; }
+    #repeat-active .counter { margin-bottom: 4px; }
+    #repeat-active .back-btn { margin-bottom: 6px; }
+    #repeat-active .nav-arrows { margin-top: 2px; }
+    #repeat-active .arrow-btn { padding: 10px; font-size: 14px; }
+    #repeat-active .tts-btn { padding: 9px 16px; font-size: 13px; }
+
     /* PROGRESS */
     .total-card {
       background: #c0392b; color: white; border-radius: 18px;
@@ -432,6 +453,14 @@ const PHRASES = [
   { id:'g16', cat:'greet', jp:'日本語が少しわかります',   hira:'にほんごがすこしわかります', pron:'니혼고가 스코시 와카리마스', ko:'일본어를 조금 알아요',    blank:{ w:'少し', opts:['少し','全然','たくさん','まあまあ'] } },
   { id:'g17', cat:'greet', jp:'韓国から来ました',         hira:'かんこくからきました',     pron:'칸코쿠카라 키마시타',      ko:'한국에서 왔어요',         blank:{ w:'韓国', opts:['韓国','日本','中国','アメリカ'] } },
   { id:'g18', cat:'greet', jp:'お名前は何ですか',         hira:'おなまえはなんですか',     pron:'오나마에와 난데스카',      ko:'성함이 어떻게 되세요?',   blank:null },
+  { id:'g19', cat:'greet', jp:'いただきます',             hira:'いただきます',             pron:'이타다키마스',              ko:'잘 먹겠습니다',           blank:null },
+  { id:'g20', cat:'greet', jp:'ごちそうさまでした',       hira:'ごちそうさまでした',       pron:'고치소-사마데시타',        ko:'잘 먹었습니다',           blank:null },
+  { id:'g21', cat:'greet', jp:'どういたしまして',         hira:'どういたしまして',         pron:'도-이타시마시테',          ko:'천만에요',                blank:null },
+  { id:'g22', cat:'greet', jp:'初めまして',               hira:'はじめまして',             pron:'하지메마시테',              ko:'처음 뵙겠습니다',         blank:null },
+  { id:'g23', cat:'greet', jp:'お大事に',                 hira:'おだいじに',               pron:'오다이지니',                ko:'몸조리 잘 하세요',        blank:null },
+  { id:'g24', cat:'greet', jp:'気にしないでください',     hira:'きにしないでください',     pron:'키니 시나이데 쿠다사이',   ko:'신경 쓰지 마세요',        blank:{ w:'気にしない', opts:['気にしない','心配しない','気にする','我慢しない'] } },
+  { id:'g25', cat:'greet', jp:'お元気ですか',             hira:'おげんきですか',           pron:'오겡키데스카',              ko:'잘 지내세요?',            blank:null },
+  { id:'g26', cat:'greet', jp:'さようなら',               hira:'さようなら',               pron:'사요-나라',                 ko:'안녕히 가세요 (작별 인사)', blank:null },
 
   // ── 호텔 ─────────────────────────────────────────────────────────
   { id:'h1',  cat:'hotel', jp:'チェックインをお願いします',   hira:'チェックインをおねがいします',   pron:'체크인 오 오네가이시마스',         ko:'체크인 부탁드립니다',       blank:{ w:'チェックイン', opts:['チェックイン','チェックアウト','ルームサービス','朝食'] } },
@@ -450,6 +479,14 @@ const PHRASES = [
   { id:'h14', cat:'hotel', jp:'駐車場はありますか',            hira:'ちゅうしゃじょうはありますか',   pron:'츄-샤죠-와 아리마스카',           ko:'주차장 있어요?',             blank:null },
   { id:'h15', cat:'hotel', jp:'もう一泊お願いします',          hira:'もういっぱくおねがいします',     pron:'모- 잇파쿠 오네가이시마스',       ko:'하루 더 묵을게요',           blank:null },
   { id:'h16', cat:'hotel', jp:'ランドリーはどこですか',        hira:'ランドリーはどこですか',         pron:'란도리-와 도코데스카',            ko:'세탁실이 어디예요?',         blank:{ w:'ランドリー', opts:['ランドリー','レストラン','フロント','エレベーター'] } },
+  { id:'h17', cat:'hotel', jp:'貴重品を預けたいです',          hira:'きちょうひんをあずけたいです',   pron:'키쵸-힝오 아즈케타이데스',         ko:'귀중품 맡기고 싶어요',       blank:null },
+  { id:'h18', cat:'hotel', jp:'モーニングコールをお願いします', hira:'モーニングコールをおねがいします', pron:'모-닝구코-루오 오네가이시마스',   ko:'모닝콜 부탁드립니다',        blank:{ w:'モーニングコール', opts:['モーニングコール','ルームサービス','チェックイン','タオル'] } },
+  { id:'h19', cat:'hotel', jp:'隣の部屋がうるさいです',        hira:'となりのへやがうるさいです',     pron:'토나리노 헤야가 우루사이데스',    ko:'옆방이 시끄러워요',          blank:null },
+  { id:'h20', cat:'hotel', jp:'追加の布団をお願いします',      hira:'ついかのふとんをおねがいします', pron:'츠이카노 후톤오 오네가이시마스',  ko:'이불 추가 부탁드려요',       blank:{ w:'布団', opts:['布団','枕','タオル','毛布'] } },
+  { id:'h21', cat:'hotel', jp:'大浴場はありますか',            hira:'だいよくじょうはありますか',     pron:'다이요쿠죠-와 아리마스카',        ko:'대욕장 있나요?',             blank:{ w:'大浴場', opts:['大浴場','温泉','プール','ジム'] } },
+  { id:'h22', cat:'hotel', jp:'フロントは24時間ですか',        hira:'フロントはにじゅうよじかんですか', pron:'후론토와 니쥬-요지칸데스카',     ko:'프론트가 24시간이에요?',     blank:null },
+  { id:'h23', cat:'hotel', jp:'部屋から景色が見えますか',      hira:'へやからけしきがみえますか',     pron:'헤야카라 케시키가 미에마스카',    ko:'방에서 경치가 보이나요?',    blank:null },
+  { id:'h24', cat:'hotel', jp:'コインランドリーはありますか',  hira:'コインランドリーはありますか',   pron:'코인란도리-와 아리마스카',        ko:'코인세탁실 있나요?',         blank:{ w:'コインランドリー', opts:['コインランドリー','自動販売機','喫煙所','休憩室'] } },
 
   // ── 음식점 ───────────────────────────────────────────────────────
   { id:'f1',  cat:'food', jp:'これをください',            hira:'これをください',             pron:'코레오 쿠다사이',             ko:'이것 주세요',           blank:{ w:'これ', opts:['これ','それ','あれ','どれ'] } },
@@ -469,6 +506,14 @@ const PHRASES = [
   { id:'f15', cat:'food', jp:'お冷やをください',           hira:'おひやをください',           pron:'오히야오 쿠다사이',           ko:'냉수 주세요',           blank:null },
   { id:'f16', cat:'food', jp:'辛さは調節できますか',       hira:'からさはちょうせつできますか', pron:'카라사와 쵸-세츠 데키마스카', ko:'매운맛 조절 돼요?',     blank:null },
   { id:'f17', cat:'food', jp:'ナフキンをください',         hira:'ナフキンをください',         pron:'나후킨오 쿠다사이',           ko:'냅킨 주세요',           blank:{ w:'ナフキン', opts:['ナフキン','お箸','スプーン','フォーク'] } },
+  { id:'f18', cat:'food', jp:'子供用の椅子はありますか',   hira:'こどもようのいすはありますか', pron:'코도모요-노 이스와 아리마스카', ko:'아이용 의자 있나요?',   blank:{ w:'子供用', opts:['子供用','予約用','窓側','喫煙'] } },
+  { id:'f19', cat:'food', jp:'取り皿をください',           hira:'とりざらをください',         pron:'토리자라오 쿠다사이',         ko:'덜어먹을 접시 주세요',  blank:null },
+  { id:'f20', cat:'food', jp:'おしぼりをください',         hira:'おしぼりをください',         pron:'오시보리오 쿠다사이',         ko:'물수건 주세요',         blank:null },
+  { id:'f21', cat:'food', jp:'メニューを見せてください',   hira:'メニューをみせてください',   pron:'메뉴-오 미세테 쿠다사이',     ko:'메뉴 보여주세요',       blank:null },
+  { id:'f22', cat:'food', jp:'これは何人前ですか',         hira:'これはなんにんまえですか',   pron:'코레와 난닌마에데스카',       ko:'이거 몇 인분이에요?',   blank:{ w:'何人前', opts:['何人前','いくら','何分','何時'] } },
+  { id:'f23', cat:'food', jp:'飲み物のメニューはありますか', hira:'のみもののメニューはありますか', pron:'노미모노노 메뉴-와 아리마스카', ko:'음료 메뉴 있나요?',  blank:null },
+  { id:'f24', cat:'food', jp:'お箸をもう一膳ください',     hira:'おはしをもういちぜんください', pron:'오하시오 모- 이치젠 쿠다사이', ko:'젓가락 한 벌 더 주세요', blank:null },
+  { id:'f25', cat:'food', jp:'これは辛いですか',           hira:'これはからいですか',         pron:'코레와 카라이데스카',         ko:'이거 매워요?',          blank:{ w:'辛い', opts:['辛い','甘い','熱い','冷たい'] } },
 
   // ── 교통 ─────────────────────────────────────────────────────────
   { id:'t1',  cat:'transit', jp:'〜まで一枚ください',       hira:'〜までいちまいください',       pron:'~마데 이치마이 쿠다사이',    ko:'~까지 한 장 주세요',       blank:{ w:'一枚', opts:['一枚','二枚','三枚','四枚'] } },
@@ -487,6 +532,20 @@ const PHRASES = [
   { id:'t14', cat:'transit', jp:'空港までお願いします',      hira:'くうこうまでおねがいします',   pron:'쿠-코-마데 오네가이시마스', ko:'공항까지 부탁드립니다',     blank:{ w:'空港', opts:['空港','駅','ホテル','市内'] } },
   { id:'t15', cat:'transit', jp:'一日乗車券はありますか',    hira:'いちにちじょうしゃけんはありますか', pron:'이치니치 죠-샤켄와 아리마스카', ko:'1일 승차권 있어요?',     blank:{ w:'一日乗車券', opts:['一日乗車券','定期券','回数券','割引券'] } },
   { id:'t16', cat:'transit', jp:'荷物はどこに預けますか',    hira:'にもつはどこにあずけますか',   pron:'니모츠와 도코니 아즈케마스카', ko:'짐은 어디에 맡겨요?',      blank:null },
+  { id:'t17', cat:'transit', jp:'ICカードはどこで買えますか', hira:'アイシーカードはどこでかえますか', pron:'아이시-카-도와 도코데 카에마스카', ko:'IC카드 어디서 사나요?',  blank:{ w:'ICカード', opts:['ICカード','切符','定期券','回数券'] } },
+  { id:'t18', cat:'transit', jp:'このバスは渋谷に行きますか', hira:'このバスはしぶやにいきますか', pron:'코노 바스와 시부야니 이키마스카', ko:'이 버스 시부야 가나요?',  blank:null },
+  { id:'t19', cat:'transit', jp:'乗り場は何番ですか',         hira:'のりばはなんばんですか',       pron:'노리바와 난반데스카',           ko:'탑승장이 몇 번이에요?',    blank:{ w:'何番', opts:['何番','何線','何階','何口'] } },
+  { id:'t20', cat:'transit', jp:'時刻表を見せてください',     hira:'じこくひょうをみせてください', pron:'지코쿠효-오 미세테 쿠다사이',   ko:'시간표 보여주세요',        blank:null },
+  { id:'t21', cat:'transit', jp:'遅延していますか',           hira:'ちえんしていますか',           pron:'치엔시테이마스카',              ko:'지연되고 있나요?',         blank:null },
+  { id:'t22', cat:'transit', jp:'チャージはどこでできますか', hira:'チャージはどこでできますか',   pron:'챠-지와 도코데 데키마스카',     ko:'충전은 어디서 하나요?',    blank:null },
+  { id:'t23', cat:'transit', jp:'自由席はどこですか',         hira:'じゆうせきはどこですか',       pron:'지유-세키와 도코데스카',        ko:'자유석이 어디예요?',       blank:{ w:'自由席', opts:['自由席','指定席','グリーン車','喫煙車'] } },
+  { id:'t24', cat:'transit', jp:'指定席を予約したいです',     hira:'していせきをよやくしたいです', pron:'시테이세키오 요야쿠시타이데스', ko:'지정석 예약하고 싶어요',   blank:null },
+  { id:'t25', cat:'transit', jp:'搭乗口はどこですか',         hira:'とうじょうぐちはどこですか',   pron:'토-죠-구치와 도코데스카',       ko:'탑승구가 어디예요?',       blank:{ w:'搭乗口', opts:['搭乗口','入口','出口','受付'] } },
+  { id:'t26', cat:'transit', jp:'入国審査はどこですか',       hira:'にゅうこくしんさはどこですか', pron:'뉴-코쿠신사와 도코데스카',      ko:'입국심사가 어디예요?',     blank:null },
+  { id:'t27', cat:'transit', jp:'税関申告は必要ですか',       hira:'ぜいかんしんこくはひつようですか', pron:'제이칸신코쿠와 히츠요-데스카', ko:'세관신고 필요한가요?',    blank:null },
+  { id:'t28', cat:'transit', jp:'乗り継ぎ便はどこですか',     hira:'のりつぎびんはどこですか',     pron:'노리츠기빈와 도코데스카',       ko:'환승 비행기가 어디예요?',  blank:null },
+  { id:'t29', cat:'transit', jp:'手荷物受取所はどこですか',   hira:'てにもつうけとりじょはどこですか', pron:'테니모츠 우케토리죠와 도코데스카', ko:'수하물 찾는 곳이 어디예요?', blank:null },
+  { id:'t30', cat:'transit', jp:'この荷物は機内に持ち込めますか', hira:'このにもつはきないにもちこめますか', pron:'코노 니모츠와 키나이니 모치코메마스카', ko:'이 짐 기내에 들고 탈 수 있나요?', blank:null },
 
   // ── 관광지 ───────────────────────────────────────────────────────
   { id:'s1',  cat:'sightseeing', jp:'写真を撮ってもいいですか',      hira:'しゃしんをとってもいいですか',       pron:'샤싱오 톳테모 이이데스카',       ko:'사진 찍어도 돼요?',             blank:{ w:'写真', opts:['写真','動画','見学','地図'] } },
@@ -505,6 +564,14 @@ const PHRASES = [
   { id:'s14', cat:'sightseeing', jp:'予約が必要ですか',                hira:'よやくがひつようですか',               pron:'요야쿠가 히츠요-데스카',            ko:'예약이 필요한가요?',               blank:null },
   { id:'s15', cat:'sightseeing', jp:'混んでいますか',                  hira:'こんでいますか',                       pron:'콘데이마스카',                      ko:'붐비나요?',                        blank:null },
   { id:'s16', cat:'sightseeing', jp:'ここで買い物できますか',          hira:'ここでかいものできますか',             pron:'코코데 카이모노 데키마스카',        ko:'여기서 쇼핑할 수 있어요?',        blank:null },
+  { id:'s17', cat:'sightseeing', jp:'ベビーカーは借りられますか',      hira:'ベビーカーはかりられますか',           pron:'베비-카-와 카리라레마스카',         ko:'유모차 빌릴 수 있나요?',           blank:{ w:'ベビーカー', opts:['ベビーカー','車椅子','傘','地図'] } },
+  { id:'s18', cat:'sightseeing', jp:'ロッカーはありますか',            hira:'ロッカーはありますか',                 pron:'록카-와 아리마스카',                ko:'사물함 있나요?',                   blank:null },
+  { id:'s19', cat:'sightseeing', jp:'音声ガイドはありますか',          hira:'おんせいガイドはありますか',           pron:'온세이가이도와 아리마스카',         ko:'음성가이드 있나요?',               blank:{ w:'音声ガイド', opts:['音声ガイド','日本語ガイド','パンフレット','地図'] } },
+  { id:'s20', cat:'sightseeing', jp:'写真を撮ってもらえますか',        hira:'しゃしんをとってもらえますか',         pron:'샤싱오 톳테 모라에마스카',          ko:'사진 찍어 주실 수 있나요?',        blank:null },
+  { id:'s21', cat:'sightseeing', jp:'ライトアップは何時からですか',    hira:'ライトアップはなんじからですか',       pron:'라이토앗푸와 난지카라데스카',       ko:'라이트업은 몇 시부터예요?',        blank:null },
+  { id:'s22', cat:'sightseeing', jp:'おすすめの観光コースはありますか', hira:'おすすめのかんこうコースはありますか', pron:'오스스메노 칸코-코-스와 아리마스카', ko:'추천 관광코스 있나요?',           blank:null },
+  { id:'s23', cat:'sightseeing', jp:'ここで待ち合わせしましょう',      hira:'ここでまちあわせしましょう',           pron:'코코데 마치아와세 시마쇼-',         ko:'여기서 만나요(모여요)',            blank:null },
+  { id:'s24', cat:'sightseeing', jp:'子供も楽しめますか',              hira:'こどももたのしめますか',               pron:'코도모모 타노시메마스카',           ko:'아이도 즐길 수 있나요?',           blank:null },
 
   // ── 엄마용 고급 🔥 ──────────────────────────────────────────────
   { id:'m1',  cat:'mama', jp:'なるほどですね',
@@ -587,6 +654,26 @@ const PHRASES = [
     hira:'かめのこうよりとしのこう', pron:'카메노 코-요리 토시노 코-',
     ko:'거북이 등보다 나이의 경험이 낫다 (연륜이 재산 · 어르신께 칭찬할 때)',
     blank:null },
+  { id:'m21', cat:'mama', jp:'かわいい！',
+    hira:'かわいい', pron:'카와이이',
+    ko:'귀엽다! (일본 감탄사 대표주자)',
+    blank:null },
+  { id:'m22', cat:'mama', jp:'すごい！',
+    hira:'すごい', pron:'스고이',
+    ko:'대단해! / 굉장해!',
+    blank:null },
+  { id:'m23', cat:'mama', jp:'乾杯！',
+    hira:'かんぱい', pron:'칸파이',
+    ko:'건배! (술자리 필수 표현)',
+    blank:null },
+  { id:'m24', cat:'mama', jp:'お腹いっぱいです',
+    hira:'おなかいっぱいです', pron:'오나카 잇파이데스',
+    ko:'배불러요 (식사 후 만족감 표현)',
+    blank:null },
+  { id:'m25', cat:'mama', jp:'頑張ります！',
+    hira:'がんばります', pron:'간바리마스',
+    ko:'열심히 할게요! / 힘낼게요! (다짐할 때)',
+    blank:null },
 
   // ── 쇼핑 ─────────────────────────────────────────────────────────
   { id:'sh1',  cat:'shop', jp:'これはいくらですか',             hira:'これはいくらですか',               pron:'코레와 이쿠라데스카',               ko:'이거 얼마예요?',                 blank:{ w:'いくら', opts:['いくら','なに','どこ','いつ'] } },
@@ -605,6 +692,18 @@ const PHRASES = [
   { id:'sh14', cat:'shop', jp:'ギフト包装をお願いします',       hira:'ギフトほうそうをおねがいします',   pron:'기후토 호-소-오 오네가이시마스',     ko:'선물 포장 부탁드려요',           blank:null },
   { id:'sh15', cat:'shop', jp:'在庫はありますか',               hira:'ざいこはありますか',               pron:'자이코와 아리마스카',               ko:'재고 있나요?',                   blank:null },
   { id:'sh16', cat:'shop', jp:'これを取り置きできますか',       hira:'これをとりおきできますか',         pron:'코레오 토리오키 데키마스카',         ko:'이거 맡겨놓을 수 있나요?',       blank:null },
+  { id:'sh17', cat:'shop', jp:'試着室はどこですか',             hira:'しちゃくしつはどこですか',         pron:'시챠쿠시츠와 도코데스카',           ko:'피팅룸이 어디예요?',             blank:{ w:'試着室', opts:['試着室','レジ','出口','トイレ'] } },
+  { id:'sh18', cat:'shop', jp:'これと同じものはありますか',     hira:'これとおなじものはありますか',     pron:'코레토 오나지 모노와 아리마스카',   ko:'이것과 같은 거 있나요?',         blank:null },
+  { id:'sh19', cat:'shop', jp:'もう一つください',               hira:'もうひとつください',               pron:'모- 히토츠 쿠다사이',               ko:'하나 더 주세요',                 blank:null },
+  { id:'sh20', cat:'shop', jp:'子供用のサイズはありますか',     hira:'こどもようのサイズはありますか',   pron:'코도모요-노 사이즈와 아리마스카',   ko:'아이용 사이즈 있나요?',          blank:{ w:'子供用', opts:['子供用','大人用','男性用','女性用'] } },
+  { id:'sh21', cat:'shop', jp:'免税カウンターはどこですか',     hira:'めんぜいカウンターはどこですか',   pron:'멘제이 카운타-와 도코데스카',       ko:'면세 카운터가 어디예요?',        blank:null },
+  { id:'sh22', cat:'shop', jp:'これは日本製ですか',             hira:'これはにほんせいですか',           pron:'코레와 니혼세이데스카',             ko:'이거 일본산이에요?',             blank:null },
+  { id:'sh23', cat:'shop', jp:'ポイントカードはありますか',     hira:'ポイントカードはありますか',       pron:'포인토카-도와 아리마스카',          ko:'포인트 카드 있나요?',            blank:null },
+  { id:'sh24', cat:'shop', jp:'プレゼント用に分けて包んでもらえますか', hira:'プレゼントようにわけてつつんでもらえますか', pron:'프레젠토요-니 와케테 츠츤데 모라에마스카', ko:'선물용으로 따로 포장해 주실 수 있나요?', blank:null },
+  { id:'sh25', cat:'shop', jp:'QRコードで払えますか',       hira:'キューアールコードではらえますか', pron:'큐-아-루코-도데 하라에마스카',     ko:'QR코드로 결제되나요?',       blank:null },
+  { id:'sh26', cat:'shop', jp:'キャッシュレス決済はできますか', hira:'キャッシュレスけっさいはできますか', pron:'캿슈레스 켓사이와 데키마스카',   ko:'캐시리스(현금없는) 결제 되나요?', blank:{ w:'キャッシュレス', opts:['キャッシュレス','クレジットカード','現金','ポイント'] } },
+  { id:'sh27', cat:'shop', jp:'PayPayは使えますか',          hira:'ペイペイはつかえますか',       pron:'페이페이와 츠카에마스카',        ko:'페이페이 쓸 수 있나요?',     blank:null },
+  { id:'sh28', cat:'shop', jp:'Suicaは使えますか',            hira:'スイカはつかえますか',         pron:'스이카와 츠카에마스카',          ko:'스이카(교통카드) 쓸 수 있나요?', blank:null },
 
   // ── 일상 대화 ────────────────────────────────────────────────────
   { id:'d1',  cat:'daily', jp:'これは何ですか',                 hira:'これはなんですか',                 pron:'코레와 난데스카',                   ko:'이게 뭐예요?',                   blank:{ w:'何', opts:['何','どこ','いつ','いくら'] } },
@@ -623,6 +722,16 @@ const PHRASES = [
   { id:'d14', cat:'daily', jp:'また会いましょう',               hira:'またあいましょう',                 pron:'마타 아이마쇼-',                    ko:'또 만나요',                      blank:null },
   { id:'d15', cat:'daily', jp:'楽しかったです',                 hira:'たのしかったです',                 pron:'타노시캇타데스',                    ko:'즐거웠어요',                     blank:null },
   { id:'d16', cat:'daily', jp:'お先に失礼します',               hira:'おさきにしつれいします',           pron:'오사키니 시츠레이시마스',           ko:'먼저 실례합니다 (먼저 자리 뜰 때)', blank:null },
+  { id:'d17', cat:'daily', jp:'日本語で何と言いますか',         hira:'にほんごでなんといいますか',       pron:'니혼고데 난토 이이마스카',           ko:'일본어로 뭐라고 해요?',          blank:{ w:'日本語', opts:['日本語','韓国語','英語','中国語'] } },
+  { id:'d18', cat:'daily', jp:'これは何に使いますか',           hira:'これはなににつかいますか',         pron:'코레와 나니니 츠카이마스카',         ko:'이거 뭐에 써요?',                blank:null },
+  { id:'d19', cat:'daily', jp:'誰か英語を話せる人はいますか',   hira:'だれかえいごをはなせるひとはいますか', pron:'다레카 에이고오 하나세루 히토와 이마스카', ko:'영어 할 수 있는 사람 있나요?', blank:null },
+  { id:'d20', cat:'daily', jp:'お手洗いを借りてもいいですか',   hira:'おてあらいをかりてもいいですか',   pron:'오테아라이오 카리테모 이이데스카',   ko:'화장실 좀 써도 될까요?',         blank:null },
+  { id:'d21', cat:'daily', jp:'ここに荷物を置いてもいいですか', hira:'ここににもつをおいてもいいですか', pron:'코코니 니모츠오 오이테모 이이데스카', ko:'여기에 짐 둬도 되나요?',        blank:null },
+  { id:'d22', cat:'daily', jp:'気をつけてください',             hira:'きをつけてください',               pron:'키오 츠케테 쿠다사이',               ko:'조심하세요',                     blank:null },
+  { id:'d23', cat:'daily', jp:'この写真を見てください',         hira:'このしゃしんをみてください',       pron:'코노 샤싱오 미테 쿠다사이',          ko:'이 사진 좀 봐주세요',            blank:null },
+  { id:'d24', cat:'daily', jp:'ゆっくりで大丈夫です',           hira:'ゆっくりでだいじょうぶです',       pron:'윳쿠리데 다이죠-부데스',             ko:'천천히 하셔도 괜찮아요',         blank:null },
+  { id:'d25', cat:'daily', jp:'時差ぼけです',                   hira:'じさぼけです',                     pron:'지사보케데스',                       ko:'시차 적응이 안 돼요',            blank:null },
+  { id:'d26', cat:'daily', jp:'現地時間で何時ですか',           hira:'げんちじかんでなんじですか',       pron:'겐치지칸데 난지데스카',               ko:'현지시간으로 몇 시예요?',        blank:null },
 
   // ── 단어: 숫자·돈 ────────────────────────────────────────────────
   { id:'wn1',  cat:'w_num', jp:'一',    hira:'いち',     pron:'이치',   ko:'1 (일)',        blank:null },
@@ -641,6 +750,14 @@ const PHRASES = [
   { id:'wn14', cat:'w_num', jp:'円',    hira:'えん',     pron:'엔',     ko:'엔 (일본 화폐)', blank:null },
   { id:'wn15', cat:'w_num', jp:'おつり', hira:'おつり',   pron:'오츠리', ko:'거스름돈',      blank:null },
   { id:'wn16', cat:'w_num', jp:'合計',  hira:'ごうけい', pron:'고-케이', ko:'합계',         blank:null },
+  { id:'wn17', cat:'w_num', jp:'半額',  hira:'はんがく', pron:'한가쿠',  ko:'반값',         blank:null },
+  { id:'wn18', cat:'w_num', jp:'無料',  hira:'むりょう', pron:'무료-',   ko:'무료',         blank:null },
+  { id:'wn19', cat:'w_num', jp:'有料',  hira:'ゆうりょう', pron:'유-료-', ko:'유료',         blank:null },
+  { id:'wn20', cat:'w_num', jp:'支払い', hira:'しはらい', pron:'시하라이', ko:'지불 / 결제', blank:null },
+  { id:'wn21', cat:'w_num', jp:'現金',  hira:'げんきん', pron:'겐킨',    ko:'현금',         blank:null },
+  { id:'wn22', cat:'w_num', jp:'割引',  hira:'わりびき', pron:'와리비키', ko:'할인',        blank:null },
+  { id:'wn23', cat:'w_num', jp:'両替',  hira:'りょうがえ', pron:'료-가에', ko:'환전',        blank:null },
+  { id:'wn24', cat:'w_num', jp:'チップ', hira:'チップ',  pron:'칩푸',    ko:'팁',           blank:null },
 
   // ── 단어: 음식 ───────────────────────────────────────────────────
   { id:'wf1',  cat:'w_food', jp:'ラーメン',   hira:'ラーメン',       pron:'라-멘',     ko:'라멘',       blank:null },
@@ -658,6 +775,14 @@ const PHRASES = [
   { id:'wf13', cat:'w_food', jp:'味噌汁',     hira:'みそしる',       pron:'미소시루',  ko:'된장국',     blank:null },
   { id:'wf14', cat:'w_food', jp:'親子丼',     hira:'おやこどん',     pron:'오야코동',  ko:'오야코동',   blank:null },
   { id:'wf15', cat:'w_food', jp:'わさび',     hira:'わさび',         pron:'와사비',    ko:'고추냉이',   blank:null },
+  { id:'wf16', cat:'w_food', jp:'カレー',     hira:'カレー',         pron:'카레-',     ko:'카레',       blank:null },
+  { id:'wf17', cat:'w_food', jp:'とんかつ',   hira:'とんかつ',       pron:'톤카츠',    ko:'돈카츠',     blank:null },
+  { id:'wf18', cat:'w_food', jp:'餃子',       hira:'ぎょうざ',       pron:'교-자',     ko:'군만두(교자)', blank:null },
+  { id:'wf19', cat:'w_food', jp:'ビール',     hira:'ビール',         pron:'비-루',     ko:'맥주',       blank:null },
+  { id:'wf20', cat:'w_food', jp:'お茶',       hira:'おちゃ',         pron:'오챠',      ko:'차',         blank:null },
+  { id:'wf21', cat:'w_food', jp:'コーヒー',   hira:'コーヒー',       pron:'코-히-',    ko:'커피',       blank:null },
+  { id:'wf22', cat:'w_food', jp:'デザート',   hira:'デザート',       pron:'데자-토',   ko:'디저트',     blank:null },
+  { id:'wf23', cat:'w_food', jp:'パン',       hira:'パン',           pron:'팡',        ko:'빵',         blank:null },
 
   // ── 단어: 장소 ───────────────────────────────────────────────────
   { id:'wp1',  cat:'w_place', jp:'駅',     hira:'えき',         pron:'에키',      ko:'역',         blank:null },
@@ -675,6 +800,14 @@ const PHRASES = [
   { id:'wp13', cat:'w_place', jp:'交番',   hira:'こうばん',     pron:'코-반',     ko:'파출소',     blank:null },
   { id:'wp14', cat:'w_place', jp:'バス停', hira:'バスてい',     pron:'바스테이',  ko:'버스 정류장', blank:null },
   { id:'wp15', cat:'w_place', jp:'観光案内所', hira:'かんこうあんないじょ', pron:'칸코- 안나이죠', ko:'관광안내소', blank:null },
+  { id:'wp16', cat:'w_place', jp:'スーパー', hira:'スーパー',     pron:'스-파-',    ko:'슈퍼마켓',   blank:null },
+  { id:'wp17', cat:'w_place', jp:'美術館', hira:'びじゅつかん', pron:'비쥬츠칸',  ko:'미술관',     blank:null },
+  { id:'wp18', cat:'w_place', jp:'動物園', hira:'どうぶつえん', pron:'도-부츠엔', ko:'동물원',     blank:null },
+  { id:'wp19', cat:'w_place', jp:'水族館', hira:'すいぞくかん', pron:'스이조쿠칸', ko:'수족관',    blank:null },
+  { id:'wp20', cat:'w_place', jp:'遊園地', hira:'ゆうえんち',   pron:'유-엔치',   ko:'놀이공원',   blank:null },
+  { id:'wp21', cat:'w_place', jp:'市場',   hira:'いちば',       pron:'이치바',    ko:'시장',       blank:null },
+  { id:'wp22', cat:'w_place', jp:'ATM',    hira:'エーティーエム', pron:'에-티-에무', ko:'ATM(현금인출기)', blank:null },
+  { id:'wp23', cat:'w_place', jp:'駐車場', hira:'ちゅうしゃじょう', pron:'츄-샤죠-', ko:'주차장',    blank:null },
 
   // ── 단어: 형용사 ─────────────────────────────────────────────────
   { id:'wa1',  cat:'w_adj', jp:'赤',     hira:'あか',     pron:'아카',   ko:'빨간색',    blank:null },
@@ -692,6 +825,14 @@ const PHRASES = [
   { id:'wa13', cat:'w_adj', jp:'暑い',   hira:'あつい',   pron:'아츠이',  ko:'덥다',     blank:null },
   { id:'wa14', cat:'w_adj', jp:'寒い',   hira:'さむい',   pron:'사무이',  ko:'춥다',     blank:null },
   { id:'wa15', cat:'w_adj', jp:'楽しい', hira:'たのしい', pron:'타노시이', ko:'즐겁다',  blank:null },
+  { id:'wa16', cat:'w_adj', jp:'新しい', hira:'あたらしい', pron:'아타라시이', ko:'새롭다', blank:null },
+  { id:'wa17', cat:'w_adj', jp:'古い',   hira:'ふるい',   pron:'후루이',   ko:'낡다 / 오래되다', blank:null },
+  { id:'wa18', cat:'w_adj', jp:'多い',   hira:'おおい',   pron:'오-이',    ko:'많다',     blank:null },
+  { id:'wa19', cat:'w_adj', jp:'少ない', hira:'すくない', pron:'스쿠나이', ko:'적다',     blank:null },
+  { id:'wa20', cat:'w_adj', jp:'速い',   hira:'はやい',   pron:'하야이',   ko:'빠르다',   blank:null },
+  { id:'wa21', cat:'w_adj', jp:'遅い',   hira:'おそい',   pron:'오소이',   ko:'느리다 / 늦다', blank:null },
+  { id:'wa22', cat:'w_adj', jp:'忙しい', hira:'いそがしい', pron:'이소가시이', ko:'바쁘다', blank:null },
+  { id:'wa23', cat:'w_adj', jp:'きれい', hira:'きれい',   pron:'키레이',   ko:'예쁘다 / 깨끗하다', blank:null },
 
   // ── 단어: 시간 ───────────────────────────────────────────────────
   { id:'wt1',  cat:'w_time', jp:'今日',  hira:'きょう',   pron:'쿄-',    ko:'오늘',      blank:null },
@@ -709,6 +850,14 @@ const PHRASES = [
   { id:'wt13', cat:'w_time', jp:'今週',  hira:'こんしゅう', pron:'콘슈-',  ko:'이번 주', blank:null },
   { id:'wt14', cat:'w_time', jp:'来週',  hira:'らいしゅう', pron:'라이슈-', ko:'다음 주', blank:null },
   { id:'wt15', cat:'w_time', jp:'毎日',  hira:'まいにち',  pron:'마이니치', ko:'매일',   blank:null },
+  { id:'wt16', cat:'w_time', jp:'来年',  hira:'らいねん',  pron:'라이넨',   ko:'내년',     blank:null },
+  { id:'wt17', cat:'w_time', jp:'先週',  hira:'せんしゅう', pron:'센슈-',   ko:'지난주',   blank:null },
+  { id:'wt18', cat:'w_time', jp:'半',    hira:'はん',      pron:'한',      ko:'반 (~시 반)', blank:null },
+  { id:'wt19', cat:'w_time', jp:'分',    hira:'ふん',      pron:'훈',      ko:'분',       blank:null },
+  { id:'wt20', cat:'w_time', jp:'時間',  hira:'じかん',    pron:'지칸',    ko:'시간',     blank:null },
+  { id:'wt21', cat:'w_time', jp:'休み',  hira:'やすみ',    pron:'야스미',  ko:'휴가 / 쉬는 날', blank:null },
+  { id:'wt22', cat:'w_time', jp:'予定',  hira:'よてい',    pron:'요테이',  ko:'예정 / 일정', blank:null },
+  { id:'wt23', cat:'w_time', jp:'今から', hira:'いまから', pron:'이마카라', ko:'지금부터', blank:null },
 
   // ── 단어: 생활 명사 ──────────────────────────────────────────────
   { id:'wno1',  cat:'w_noun', jp:'財布',         hira:'さいふ',           pron:'사이후',          ko:'지갑',          blank:null },
@@ -731,6 +880,16 @@ const PHRASES = [
   { id:'wno18', cat:'w_noun', jp:'カメラ',       hira:'カメラ',           pron:'카메라',          ko:'카메라',        blank:null },
   { id:'wno19', cat:'w_noun', jp:'ゴミ箱',       hira:'ゴミばこ',         pron:'고미바코',        ko:'쓰레기통',      blank:null },
   { id:'wno20', cat:'w_noun', jp:'エレベーター', hira:'エレベーター',     pron:'에레베-타-',      ko:'엘리베이터',    blank:null },
+  { id:'wno21', cat:'w_noun', jp:'マスク',       hira:'マスク',           pron:'마스쿠',          ko:'마스크',        blank:null },
+  { id:'wno22', cat:'w_noun', jp:'歯ブラシ',     hira:'はブラシ',         pron:'하부라시',        ko:'칫솔',          blank:null },
+  { id:'wno23', cat:'w_noun', jp:'シャンプー',   hira:'シャンプー',       pron:'샴푸-',           ko:'샴푸',          blank:null },
+  { id:'wno24', cat:'w_noun', jp:'ウェットティッシュ', hira:'ウェットティッシュ', pron:'윗토팃슈', ko:'물티슈',       blank:null },
+  { id:'wno25', cat:'w_noun', jp:'サングラス',   hira:'サングラス',       pron:'상구라스',        ko:'선글라스',      blank:null },
+  { id:'wno26', cat:'w_noun', jp:'日焼け止め',   hira:'ひやけどめ',       pron:'히야케도메',      ko:'선크림',        blank:null },
+  { id:'wno27', cat:'w_noun', jp:'モバイルバッテリー', hira:'モバイルバッテリー', pron:'모바이루밧테리-', ko:'보조배터리(파워뱅크)', blank:null },
+  { id:'wno28', cat:'w_noun', jp:'ポケットWi-Fi', hira:'ポケットワイファイ', pron:'포켓토 와이파이', ko:'포켓와이파이',  blank:null },
+  { id:'wno29', cat:'w_noun', jp:'SIMカード',    hira:'シムカード',       pron:'시무카-도',       ko:'유심카드',      blank:null },
+  { id:'wno30', cat:'w_noun', jp:'変換プラグ',   hira:'へんかんプラグ',   pron:'헨칸프라구',      ko:'변환 플러그(어댑터)', blank:null },
 
   // ── 단어: 날씨·계절 ─────────────────────────────────────────────
   { id:'ww1',  cat:'w_weather', jp:'晴れ',     hira:'はれ',         pron:'하레',        ko:'맑음',            blank:null },
@@ -748,6 +907,12 @@ const PHRASES = [
   { id:'ww13', cat:'w_weather', jp:'夏',       hira:'なつ',         pron:'나츠',        ko:'여름',            blank:null },
   { id:'ww14', cat:'w_weather', jp:'秋',       hira:'あき',         pron:'아키',        ko:'가을',            blank:null },
   { id:'ww15', cat:'w_weather', jp:'冬',       hira:'ふゆ',         pron:'후유',        ko:'겨울',            blank:null },
+  { id:'ww16', cat:'w_weather', jp:'雷',       hira:'かみなり',     pron:'카미나리',    ko:'천둥',            blank:null },
+  { id:'ww17', cat:'w_weather', jp:'虹',       hira:'にじ',         pron:'니지',        ko:'무지개',          blank:null },
+  { id:'ww18', cat:'w_weather', jp:'花粉症',   hira:'かふんしょう', pron:'카훈쇼-',     ko:'꽃가루 알레르기', blank:null },
+  { id:'ww19', cat:'w_weather', jp:'梅雨',     hira:'つゆ',         pron:'츠유',        ko:'장마',            blank:null },
+  { id:'ww20', cat:'w_weather', jp:'紅葉',     hira:'こうよう',     pron:'코-요-',      ko:'단풍',            blank:null },
+  { id:'ww21', cat:'w_weather', jp:'桜',       hira:'さくら',       pron:'사쿠라',      ko:'벚꽃',            blank:null },
 ];
 
 // ── STORAGE ───────────────────────────────────────────────────────
@@ -1021,7 +1186,7 @@ function renderLearnCard() {
     <div class="phrase-card">
       ${cardBody}
       <div class="card-actions">
-        <button class="tts-btn" onclick="speak('${esc(p.jp)}')">🔊 듣기</button>
+        <button class="tts-btn" onclick="speak('${esc(p.hira)}')">🔊 듣기</button>
         <button class="check-btn ${done?'done':''}" onclick="toggleLearned('${p.id}')">
           ${done ? '✓ 완료' : '✓ 체크'}
         </button>
@@ -1199,7 +1364,7 @@ function renderQ() {
     const opts = shuffle([p,...others]).map(o=>
       `<div class="opt-row" data-ko="${esc(o.ko)}">
         <button class="opt" data-id="${o.id}" onclick="answerMC(this.closest('.opt-row'),'${p.id}')">${o.jp}</button>
-        <button class="spk-btn" onclick="event.stopPropagation();speak('${esc(o.jp)}')">🔊</button>
+        <button class="spk-btn" onclick="event.stopPropagation();speak('${esc(o.hira)}')">🔊</button>
       </div>`).join('');
     html = `
       <div class="quiz-card">
@@ -1213,16 +1378,16 @@ function renderQ() {
     const opts = shuffle([p,...others]).map(o=>
       `<div class="opt-row">
         <button class="opt" data-id="${o.id}" onclick="answerMC(this.closest('.opt-row'),'${p.id}')">${o.ko}</button>
-        <button class="spk-btn" onclick="event.stopPropagation();speak('${esc(o.jp)}')">🔊</button>
+        <button class="spk-btn" onclick="event.stopPropagation();speak('${esc(o.hira)}')">🔊</button>
       </div>`).join('');
     html = `
       <div class="quiz-card">
         <div class="quiz-tag">🔊 듣고 뜻을 고르세요</div>
         <div class="quiz-q" style="color:#aaa;font-size:15px">아래 버튼으로 들어보세요!</div>
-        <button class="audio-btn" onclick="speak('${esc(p.jp)}')">🔊 듣기</button>
+        <button class="audio-btn" onclick="speak('${esc(p.hira)}')">🔊 듣기</button>
       </div>
       <div class="options">${opts}</div>`;
-    setTimeout(()=>speak(p.jp), 500);
+    setTimeout(()=>speak(p.hira), 500);
 
   } else {
     // 빈칸: 일본어 빈칸 → 단어 고르기
@@ -1451,12 +1616,12 @@ function renderRepeatCard() {
     <div class="repeat-card">
       <div class="step-tag">STEP 1 — 듣고 읽기</div>
       <div class="phrase-jp">${p.jp}</div>
-      ${p.hira!==p.jp?`<div style="font-size:15px;color:#aaa;margin-top:6px">${p.hira}</div>`:''}
-      <div style="display:inline-block;background:#fff3f3;color:#c0392b;font-size:15px;font-weight:700;padding:6px 18px;border-radius:20px;margin:10px 0 6px">📣 ${p.pron}</div>
-      <div style="font-size:20px;font-weight:700;color:#2d2d2d;margin-top:4px">${p.ko}</div>
-      <div style="display:flex;gap:8px;margin:18px auto 0;justify-content:center">
-        <button class="tts-btn" onclick="speak('${esc(p.jp)}')">🔊 듣기</button>
-        <button class="tts-btn" style="background:#e67e22" onclick="speakSlow('${esc(p.jp)}')">🐢 천천히</button>
+      ${p.hira!==p.jp?`<div style="font-size:13px;color:#aaa;margin-top:2px">${p.hira}</div>`:''}
+      <div style="display:inline-block;background:#fff3f3;color:#c0392b;font-size:13px;font-weight:700;padding:4px 14px;border-radius:20px;margin:6px 0 4px">📣 ${p.pron}</div>
+      <div style="font-size:16px;font-weight:700;color:#2d2d2d;margin-top:2px">${p.ko}</div>
+      <div style="display:flex;gap:8px;margin:10px auto 0;justify-content:center">
+        <button class="tts-btn" onclick="speak('${esc(p.hira)}')">🔊 듣기</button>
+        <button class="tts-btn" style="background:#e67e22" onclick="speakSlow('${esc(p.hira)}')">🐢 천천히</button>
       </div>
     </div>
 
@@ -1470,7 +1635,7 @@ function renderRepeatCard() {
         <div class="recog-box" id="recog-box">인식된 내용이 여기 표시돼요</div>
         <div id="mic-result"></div>
       ` : `
-        <div style="padding:24px;text-align:center;color:#aaa;font-size:13px;line-height:1.8">
+        <div style="padding:12px;text-align:center;color:#aaa;font-size:12px;line-height:1.6">
           ⚠️ 이 브라우저에서는 음성 인식이 지원되지 않아요.<br>
           Chrome 브라우저를 사용해주세요.
         </div>
@@ -1481,7 +1646,7 @@ function renderRepeatCard() {
       <button class="arrow-btn" onclick="stepRepeat(-1)" ${repIdx===0?'disabled':''}>← 이전</button>
       <button class="arrow-btn" onclick="stepRepeat(1)"  ${repIdx===ps.length-1?'disabled':''}>다음 →</button>
     </div>`;
-  setTimeout(()=>speak(p.jp), 400);
+  setTimeout(()=>speak(p.hira), 400);
 }
 
 function stepRepeat(d) {
