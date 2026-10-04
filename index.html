@@ -1030,11 +1030,16 @@ async function callServerAPI(situation) {
 }
 
 async function callGemini(key, prompt) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${key}`;
   const res = await fetch(url, {
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.85,maxOutputTokens:1200}})
+    // thinkingConfig 끄지 않으면 gemini-3.8-flash가 추론(thinking) 토큰으로
+    // maxOutputTokens 예산을 거의 다 써버려 실제 JSON 출력이 중간에 잘림
+    // (2026-10-04 실측 — thinkingBudget 미설정 시 1200개 중 1148개가 thinking
+    // 토큰으로 소모돼 finishReason:MAX_TOKENS로 잘림, JSON 파싱 실패). 이
+    // 호출은 정해진 형식의 JSON만 뽑으면 되는 단순 작업이라 추론 불필요.
+    body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.85,maxOutputTokens:1200,thinkingConfig:{thinkingBudget:0}}})
   });
   if (!res.ok) {
     const err = await res.json().catch(()=>({}));
