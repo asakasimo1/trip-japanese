@@ -1110,19 +1110,27 @@ function showTab(id) {
 // ── TTS ──────────────────────────────────────────────────────────
 // Web Speech API엔 목소리 성별 필드가 없어서(SpeechSynthesisVoice엔 이름만
 // 있음) 브라우저/OS별로 알려진 일본어 여성 목소리 이름으로 추정해서 고른다.
-// 못 찾으면 남성으로 알려진 이름을 제외한 첫 목소리, 그래도 없으면 그냥
-// 첫 일본어 목소리(대부분 Chrome 기본 "Google 日本語"는 이미 여성 톤이라
-// 이 경우에도 결과는 자연스러움). 매 호출 시 조회 — getVoices()는
-// 가벼운 동기 호출이라 캐싱 불필요.
+// 2026-10-04 — "발음이 이상하다"는 리포트 원인을 더 찾아보니, 로컬(기기
+// 내장, voice.localService===true) 음성은 OS 기본 SAPI류라 억양이 로봇
+// 같고, 네트워크(구글 클라우드, localService===false) 음성은 훨씬
+// 자연스러운 경우가 대부분 — 그래서 성별 매칭보다 "로컬이 아닌 음성"을
+// 최우선으로 선택하도록 순서를 바꿈(클라우드 음성이면 어차피 구글
+// 기본값이 여성 톤이라 성별도 대체로 만족됨).
 function _pickJaFemaleVoice() {
   const voices = (typeof speechSynthesis !== 'undefined' && speechSynthesis.getVoices()) || [];
   const jaVoices = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith('ja'));
   if (!jaVoices.length) return null;
   const femaleNames = /kyoko|ayumi|haruka|nanami|o-?ren|female|여성/i;
   const maleNames   = /otoya|ichiro|keita|남성|\bmale\b/i;
-  return jaVoices.find(v => femaleNames.test(v.name))
-      || jaVoices.find(v => !maleNames.test(v.name))
-      || jaVoices[0];
+  const cloud = jaVoices.filter(v => v.localService === false);
+  const chosen =
+       cloud.find(v => femaleNames.test(v.name))        // 클라우드 + 여성이름 매칭
+    || cloud.find(v => !maleNames.test(v.name))          // 클라우드 아무거나(남성이름 제외)
+    || jaVoices.find(v => femaleNames.test(v.name))       // 로컬이라도 여성이름 매칭
+    || jaVoices.find(v => !maleNames.test(v.name))        // 로컬 아무거나(남성이름 제외)
+    || jaVoices[0];
+  console.log('[TTS] 선택된 목소리:', chosen.name, '| 클라우드:', chosen.localService === false, '| 전체 일본어 목소리:', jaVoices.map(v=>`${v.name}(${v.localService===false?'cloud':'local'})`));
+  return chosen;
 }
 // Chrome은 음성 목록을 비동기로 불러와서 페이지 로드 직후엔 getVoices()가
 // 빈 배열을 줄 수 있음 — 최대한 일찍 한 번 호출해 로딩을 미리 유도해둔다
