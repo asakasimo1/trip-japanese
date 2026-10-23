@@ -1,0 +1,8 @@
+{
+  "name": "japan-japanese",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.98.0"
+  }
+}
